@@ -1,4 +1,5 @@
-APP_ABI := armeabi-v7a
+APP_ABI := all
+#armeabi-v7a
 APP_STL := c++_static
 # c++_shared
 # c++_static

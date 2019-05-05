@@ -114,7 +114,7 @@ uint8_t * ABitmapLite::GetDataPack(size_t *psz, int32_t fast)
                 break;
 
             int lzrsz,
-                lzbsz = LZ4_compressBound(static_cast<int>(sz));
+                lzbsz = LZ4_compressBound(static_cast<int>(*psz));
 
             if (!lzbsz)
                 break;
