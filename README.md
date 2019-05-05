@@ -15,4 +15,16 @@
 - rotate image: `90,180,270`
 - mirror image.
 - save image to location specified (bmp format).
+- default save path: /data/tmp/*.bmp
 
+### Formats using
+
+Packet stream header include `uint32[2]`, octet `0` unique identifier, octet `1` real size to uncompressed image.
+
+### Using
+
+       adb exec-out /data/tmp/ascreencap -f /data/tmp/my.bmp
+       adb exec-out /data/tmp/ascreencap -f /data/tmp/my.bmz // << save lz4 compressed image
+       adb exec-out /data/tmp/ascreencap --rotate 90 --ratio 2
+       adb exec-out /data/tmp/ascreencap --stream
+       
