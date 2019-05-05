@@ -17,7 +17,7 @@
 - save image to location specified (bmp format).
 - default save path: /data/tmp/AScreenCap.bmp
 
-### Stream header format using
+### Stream/Image compressed header format using
 
 Packet stream include no pack header, size 64bit  `uint32[2]`, after image compressed body:
 - octet `0` - unique identifier `BMZ1`.  
