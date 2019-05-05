@@ -18,6 +18,14 @@
 - save image to location specified (bmp format).
 - default save path: /data/tmp/AScreenCap.bmp
 
+Run time statistic, milliseconds:
+
+        5 ms. - load and initialization
+      151 ms. - capture screen - android::ScreenshotClient()
+       40 ms. - image conert, resize and rotate
+      196 ms. - total time
+
+
 ### Stream/Image compressed - header format using
 
 Packet stream include no pack header, size 64bit  `uint32[2]`, after image compressed body:

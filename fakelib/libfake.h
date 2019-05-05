@@ -1,6 +1,6 @@
 
 #if !defined(__ANDROID__)
-#error "__ANDROID__ only !"
+#error "__ANDROID__ build only !"
 #endif
 
 #include <unistd.h>
