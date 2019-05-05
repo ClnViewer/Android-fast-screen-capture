@@ -42,9 +42,9 @@ Download binary for you device from [dist/](https://github.com/ClnViewer/Android
 - [x86](https://github.com/ClnViewer/Android-fast-screen-capture/blob/master/dist/x86)
 - [x86_64](https://github.com/ClnViewer/Android-fast-screen-capture/blob/master/dist/x86_64)
 
-- Application platform: `android-22`  
-- Android system library: `5.1.1`  
-- NDK build version: `r20-beta2`  
+- Application platform: `android-22`
+- Android system library: `5.1.1`
+- NDK build version: `r20-beta2`
 
       adb pull dist/<my platform>/ascreencap /data/local/tmp/
       adb shell chmod 0777 /data/local/tmp/ascreencap
