@@ -10,4 +10,9 @@
 ### Features
 
 - image output format: **raw bitmap** `24 bpp`, include header.
-- stream output format: **raw compressed bitmap** `lz4 stream` - 24 bpp`, include header + packet header.
+- stream output format: **raw compressed bitmap** `lz4 stream` - `24 bpp`, include header + packet header.
+- resize image by ratio: valid values `1-5`.
+- rotate image: `90,180,270`
+- mirror image.
+- save image to location specified (bmp format).
+
