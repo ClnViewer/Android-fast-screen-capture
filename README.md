@@ -21,7 +21,7 @@
 
 Packet stream include no pack header, size 64bit  `uint32[2]`, after image compressed body:
 - octet `0` - unique identifier `BMZ1`.  
-- octetoctet `1` - real size to uncompressed image.
+- octet `1` - real size to uncompressed image.
 
 ### Using
 
