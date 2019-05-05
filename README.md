@@ -41,9 +41,11 @@ Download binary for you device from [dist/](https://github.com/ClnViewer/Android
 [x86](https://github.com/ClnViewer/Android-fast-screen-capture/blob/master/dist/x86), 
 [x86_64](https://github.com/ClnViewer/Android-fast-screen-capture/blob/master/dist/x86_64)
 
-- Application platform: `android-22`
-- Android system library: `5.1.1`
-- NDK build version: `r20-beta2`
+Building details:
+
+> Application platform: `android-22`
+> Android system library compatible: `5.1.1`
+> NDK build version: `r20-beta2`
 
 Using ADB to send binary to device: 
 
