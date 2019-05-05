@@ -35,7 +35,7 @@ Packet stream include no pack header, size 64bit  `uint32[2]`, after image compr
 
 ### Installing pre-build
 
-Download binary for you device from [dist/](https://github.com/ClnViewer/Android-fast-screen-capture/blob/master/dist/) directory and run ADB: 
+Download binary for you device from [dist/](https://github.com/ClnViewer/Android-fast-screen-capture/blob/master/dist/) directory: 
 [arm64-v8a](https://github.com/ClnViewer/Android-fast-screen-capture/blob/master/dist/arm64-v8a), 
 [armeabi-v7a](https://github.com/ClnViewer/Android-fast-screen-capture/blob/master/dist/armeabi-v7a), 
 [x86](https://github.com/ClnViewer/Android-fast-screen-capture/blob/master/dist/x86), 
@@ -44,6 +44,8 @@ Download binary for you device from [dist/](https://github.com/ClnViewer/Android
 - Application platform: `android-22`
 - Android system library: `5.1.1`
 - NDK build version: `r20-beta2`
+
+Using ADB to send binary to device: 
 
       adb pull dist/<my platform>/ascreencap /data/local/tmp/
       adb shell chmod 0777 /data/local/tmp/ascreencap
