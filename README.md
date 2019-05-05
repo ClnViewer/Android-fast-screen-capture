@@ -3,9 +3,9 @@
 - Android fast screen capture take a screenshot or compressed stream on any other Android device.  
 - Not needed root devices.   
 - ADB required (default run permissions using).  
+- For best perfomance using `OpenMP` for Android.
 - Include all using system library, fake version (for [Android 5.1.1](https://github.com/pfalcon/android-platform-headers/tree/master/android-5.1.1_r1) headers)
 - Default build tools: [ndk-build](https://developer.android.com/ndk/downloads?hl=hi#beta-downloads), including Code::Blocks project using [C::B NDK project template](https://github.com/ClnViewer/Code-Blocks-Android-NDK), NDK build auto configuration support.
-- For best perfomance using `OpenMP` for Android.
 
 ----
 
