@@ -24,6 +24,13 @@ Packet stream include no pack header, size 64bit  `uint32[2]`, after image compr
 - octet `0` - unique identifier `BMZ1`.  
 - octet `1` - real size to uncompressed image.
 
+### Installing pre-build
+
+Download binary for you device [bin/](https://github.com/ClnViewer/Android-fast-screen-capture/blob/master/bin/) and run ADB:
+
+      adb pull bin/<my platform>/ascreencap /data/tmp/
+      adb shell chmod 0777 /data/tmp/ascreencap
+
 ### Using
 
        adb exec-out /data/tmp/ascreencap -f /data/tmp/my.bmp
