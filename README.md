@@ -19,7 +19,9 @@
 
 ### Stream header format using
 
-Packet stream header include `uint32[2]`, octet `0` unique identifier, octet `1` real size to uncompressed image.
+Packet stream header include `uint32[2]`:
+- octet `0` unique identifier `BMZ1`.  
+- octetoctet `1` real size to uncompressed image.
 
 ### Using
 
