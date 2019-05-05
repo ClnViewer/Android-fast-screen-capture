@@ -15,7 +15,7 @@
 - rotate image: `90,180,270`
 - mirror image.
 - save image to location specified (bmp format).
-- default save path: /data/tmp/*.bmp
+- default save path: /data/tmp/AScreenCap.bmp
 
 ### Formats using
 
