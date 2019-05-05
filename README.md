@@ -26,9 +26,9 @@ Packet stream include no pack header, size 64bit  `uint32[2]`, after image compr
 
 ### Installing pre-build
 
-Download binary for you device from [bin/](https://github.com/ClnViewer/Android-fast-screen-capture/blob/master/bin/) directory and run ADB:
+Download binary for you device from [dist/](https://github.com/ClnViewer/Android-fast-screen-capture/blob/master/dist/) directory and run ADB:
 
-      adb pull bin/<my platform>/ascreencap /data/tmp/
+      adb pull dist/<my platform>/ascreencap /data/tmp/
       adb shell chmod 0777 /data/tmp/ascreencap
 
 ### Using
