@@ -72,6 +72,9 @@
 					<options conn_type="0" serial_baud="115200" ip_address="127.0.0.1" ip_port="59999" additional_cmds_before="set solib-search-path obj/local/armeabi-v7a&#x0A;file obj/local/armeabi-v7a/ascreencap&#x0A;" />
 				</remote_debugging>
 			</debugger>
+			<wxsmith version="1">
+				<gui name="wxWidgets" src="" main="" init_handlers="necessary" language="CPP" />
+			</wxsmith>
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>

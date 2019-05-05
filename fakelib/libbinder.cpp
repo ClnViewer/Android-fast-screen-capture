@@ -17,6 +17,32 @@ private:
    ~ProcessState();
 };
 
+
+class IPCThreadState
+{
+public:
+    static  IPCThreadState* self();
+    void    joinThreadPool(bool isMain = true);
+
+private: 
+    IPCThreadState();
+    ~IPCThreadState();
+};
+
+IPCThreadState::IPCThreadState() {
+    LOG("IPCThreadState::IPCThreadState()\n");
+}
+IPCThreadState::~IPCThreadState() {
+    LOG("IPCThreadState::IPCThreadState()\n");
+}
+IPCThreadState * IPCThreadState::self() {
+    LOG("IPCThreadState::self()\n");
+    return new IPCThreadState();
+}
+void IPCThreadState::joinThreadPool(bool r) {
+    LOG("IPCThreadState::joinThreadPool() %d\n", r);
+}
+
 sp<ProcessState> ProcessState::self() {
     LOG("ProcessState::self()\n");
     sp<ProcessState> p;

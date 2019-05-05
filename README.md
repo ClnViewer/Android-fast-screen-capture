@@ -29,9 +29,10 @@ Run time statistic, milliseconds:
 
 ### Stream/Image compressed - header format using
 
-Packet stream include no pack header, size 64bit  `uint32[2]`, after image compressed body:
+Packet stream include no pack header, size 96bit  `uint32[3]`, after image compressed body:
 - octet `0` - unique identifier `BMZ1`.  
-- octet `1` - real size to uncompressed image.
+- octet `1` - size to uncompressed image.
+- octet `2` - size to compressed image.
 
 ### Installing pre-build
 
