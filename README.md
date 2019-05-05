@@ -37,10 +37,10 @@ Packet stream include no pack header, size 64bit  `uint32[2]`, after image compr
 
 Download binary for you device from [dist/](https://github.com/ClnViewer/Android-fast-screen-capture/blob/master/dist/) directory and run ADB:
 
-- [arm64-v8a](https://github.com/ClnViewer/Android-fast-screen-capture/blob/master/dist/arm64-v8a)
-- [armeabi-v7a](https://github.com/ClnViewer/Android-fast-screen-capture/blob/master/dist/armeabi-v7a)
-- [x86](https://github.com/ClnViewer/Android-fast-screen-capture/blob/master/dist/x86)
-- [x86_64](https://github.com/ClnViewer/Android-fast-screen-capture/blob/master/dist/x86_64)
+[arm64-v8a](https://github.com/ClnViewer/Android-fast-screen-capture/blob/master/dist/arm64-v8a), 
+[armeabi-v7a](https://github.com/ClnViewer/Android-fast-screen-capture/blob/master/dist/armeabi-v7a), 
+[x86](https://github.com/ClnViewer/Android-fast-screen-capture/blob/master/dist/x86), 
+[x86_64](https://github.com/ClnViewer/Android-fast-screen-capture/blob/master/dist/x86_64)
 
 - Application platform: `android-22`
 - Android system library: `5.1.1`
