@@ -26,5 +26,6 @@ Packet stream header include `uint32[2]`, octet `0` unique identifier, octet `1`
        adb exec-out /data/tmp/ascreencap -f /data/tmp/my.bmp
        adb exec-out /data/tmp/ascreencap -f /data/tmp/my.bmz // << save lz4 compressed image
        adb exec-out /data/tmp/ascreencap --rotate 90 --ratio 2
+       adb exec-out /data/tmp/ascreencap --rotate 360 // << mirror image :)
        adb exec-out /data/tmp/ascreencap --stream
        
