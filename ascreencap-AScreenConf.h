@@ -11,9 +11,11 @@ class AScreenConf
     public:
         bool IsCapStream;
         bool IsCapFile;
+        bool IsCapStdOut;
         bool IsCapRatio;
         bool IsCapOrien;
         bool IsPackFile;
+        bool IsHelp;
         uint32_t Ratio;
         uint32_t Rotate;
         uint32_t FastPack;
@@ -21,6 +23,8 @@ class AScreenConf
 
         AScreenConf(int32_t argc, char **argv);
         ~AScreenConf();
+
+        void printHelp();
 
 };
 

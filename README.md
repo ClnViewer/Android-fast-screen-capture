@@ -55,6 +55,18 @@ Using ADB to send binary to device:
 
 ### Using
 
+Command line options:
+
+	-f	--file		: output save to file, value is name
+	-s	--stream	: output to loop stream (STDOUT)
+		--stdout	: output to STDOUT
+	-p	--pack		: output pack lz4 algorithm
+		--ratio 	: image resize ratio, valid scale 1-5
+		--rotate	: image rotate: 90,180,270, value 360 = mirror
+	-h	--help		: this help screen
+
+Example run:
+
        adb exec-out /data/local/tmp/ascreencap -f /data/local/tmp/my.bmp
        adb exec-out /data/local/tmp/ascreencap -f /data/local/tmp/my.bmz // << save lz4 compressed image
        adb exec-out /data/local/tmp/ascreencap --rotate 90 --ratio 2

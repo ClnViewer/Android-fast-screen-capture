@@ -12,7 +12,7 @@
 				<Option output="RunRemote.cmd" prefix_auto="0" extension_auto="0" />
 				<Option type="1" />
 				<Option compiler="android_ndk-build" />
-				<Option parameters="--ratio 2 --rotate 90 -f OutBmp.bmp" />
+				<Option parameters="--ratio 2 --rotate 90 -f OutBmp.bmp -h" />
 				<Compiler>
 					<Add option="-D_DEBUG=1" />
 				</Compiler>
@@ -60,6 +60,7 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="extern/lz4/lz4.h" />
+		<Unit filename="version.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />
@@ -75,6 +76,12 @@
 			<wxsmith version="1">
 				<gui name="wxWidgets" src="" main="" init_handlers="necessary" language="CPP" />
 			</wxsmith>
+			<AutoVersioning>
+				<Scheme minor_max="10" build_max="0" rev_max="0" rev_rand_max="10" build_times_to_increment_minor="100" />
+				<Settings autoincrement="1" date_declarations="1" use_define="1" update_manifest="0" do_auto_increment="1" ask_to_increment="0" language="C" svn="1" svn_directory=".svn" header_path="version.h" />
+				<Changes_Log show_changes_editor="0" app_title="released version %M.%m.%b of %p" changeslog_path="ChangesLog.txt" />
+				<Code header_guard="VERSION_H" namespace="AutoVersion" prefix="ACAP" />
+			</AutoVersioning>
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>

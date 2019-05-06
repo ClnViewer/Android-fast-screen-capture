@@ -20,6 +20,12 @@ int main(int argc, char **argv)
     ACapture::AScreenConf cnf(argc, argv);
     ACapture::AScreenCap sc;
 
+    if (cnf.IsHelp)
+    {
+        cnf.printHelp();
+        return 0;
+    }
+
     sc.setRatio(cnf.Ratio);
     sc.setRotate(cnf.Rotate);
 
@@ -53,8 +59,18 @@ int main(int argc, char **argv)
                         break;
                     }
             }
-
-            __LOG_PRINT("Capture Error [%d]", sc.getError());
+            __LOG_PRINT("Capture to file error [%d]", sc.getError());
+            ret = 127; break;
+        }
+        else if (cnf.IsCapStdOut)
+        {
+            if (sc.getScreen())
+            {
+                if (!sc.getError())
+                    if (sc.printStdout(cnf.IsPackFile, cnf.FastPack))
+                        break;
+            }
+            __LOG_PRINT("Capture to stdout error [%d]", sc.getError());
             ret = 127; break;
         }
         else if (cnf.IsCapStream)

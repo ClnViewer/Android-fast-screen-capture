@@ -21,6 +21,7 @@ class AScreenCap
         void    getStream(int32_t);
         bool    getScreen();
         bool    saveFile(std::string const &, bool, int32_t);
+        bool    printStdout(bool, int32_t);
 
 };
 

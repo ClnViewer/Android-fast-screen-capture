@@ -400,7 +400,7 @@ bool ABitmapLite::headerBmp()
         ishead = true;
 
 #       if defined(_DEBUG)
-        __LOG_PRINT("-> bmph -> %u/%u", bmph.fh.bfSize, sz);
+        __LOG_PRINT("-> bmph -> %u/%zu", bmph.fh.bfSize, sz);
 #       endif
         return true;
     }

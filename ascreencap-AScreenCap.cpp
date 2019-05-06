@@ -86,6 +86,19 @@ bool AScreenCap::saveFile(std::string const & fname, bool ispack, int32_t fast)
     __ERROR_BOOL_SET;
 }
 
+bool AScreenCap::printStdout(bool ispack, int32_t fast)
+{
+    errno = 0;
+    size_t  _psz = 0U;
+    uint8_t *_dst = ((ispack) ? _adata.GetDataPack(&_psz, fast) : _adata.GetData(&_psz));
+
+    if ((!_psz) || (!_dst))
+        __ERROR_BOOL_SET;
+
+    fwrite(_dst, 1U, _psz, stdout);
+    return true;
+}
+
 bool AScreenCap::getScreen()
 {
     _err = 0;

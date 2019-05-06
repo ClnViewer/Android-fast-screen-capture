@@ -43,3 +43,5 @@
 
 #define __ERROR_BOOL_SET \
     { _err = __LINE__; return false; }
+
+#define __NELE(a) (sizeof(a) / sizeof(a[0]))
