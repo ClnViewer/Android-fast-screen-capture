@@ -10,6 +10,7 @@
 #define __CONF_CAPROTATE  "",   "--rotate"
 #define __CONF_CAPSTREAM  "-s", "--stream"
 #define __CONF_CAPSTDOUT  "",   "--stdout"
+#define __CONF_CAPSDL     "",   "--sdl"
 #define __CONF_CAPHELP    "-h", "--help"
 
 #define __HELP_PRINT(A) fprintf(stdout, "\t\t%s\t%s\t%s\n", (A).key1, (A).key2, (A).desc)
@@ -39,6 +40,9 @@ static struct help_s helps[] =
     },
     {
         __HELP_SET(__CONF_CAPPACK, "\t: output pack lz4 algorithm")
+    },
+    {
+        __HELP_SET(__CONF_CAPSDL, "\t: output image SDL2 compatible mode: Landscape screen")
     },
     {
         __HELP_SET(__CONF_CAPRATIO, ": image resize ratio, valid scale 1-5")
@@ -91,7 +95,7 @@ void AScreenConf::printHelp()
 AScreenConf::AScreenConf(int32_t argc, char **argv)
     : _err(0),
       IsCapStream(false), IsCapFile(false), IsCapStdOut(false),
-      IsCapRatio(false), IsCapOrien(false), IsPackFile(false), IsHelp(false),
+      IsCapRatio(false), IsCapRotate(false), IsPackFile(false), IsNoHeader(false), IsHelp(false),
       Ratio(0U), Rotate(0U), FastPack(0U)
 {
     argh::parser lcmd({
@@ -100,7 +104,8 @@ AScreenConf::AScreenConf(int32_t argc, char **argv)
             __CONF_CAPPACK,
             __CONF_CAPRATIO,
             __CONF_CAPROTATE,
-            __CONF_CAPSTDOUT
+            __CONF_CAPSTDOUT,
+            __CONF_CAPSDL
             });
 
     lcmd.parse(argc, argv);
@@ -110,12 +115,13 @@ AScreenConf::AScreenConf(int32_t argc, char **argv)
     std::string srotate;
     std::string spack;
 
+    IsNoHeader  = (lcmd[{ __CONF_CAPSDL }]);
     IsHelp      = (lcmd[{ __CONF_CAPHELP }]);
     IsCapStdOut = (lcmd[{ __CONF_CAPSTDOUT }]);
     IsCapStream = (lcmd[{ __CONF_CAPSTREAM }]);
     IsCapFile   = !(!(lcmd({ __CONF_CAPFILE })   >> FileName));
     IsCapRatio  = !(!(lcmd({ __CONF_CAPRATIO })  >> sratio));
-    IsCapOrien  = !(!(lcmd({ __CONF_CAPROTATE }) >> srotate));
+    IsCapRotate  = !(!(lcmd({ __CONF_CAPROTATE }) >> srotate));
     bool isPack = !(!(lcmd({ __CONF_CAPPACK })   >> spack));
 
     if (!IsCapStdOut)
@@ -152,22 +158,26 @@ AScreenConf::AScreenConf(int32_t argc, char **argv)
             IsCapRatio = false;
     }
 
-    if ((IsCapOrien) && (srotate.length()))
-    {
-        switch ((Rotate = strToUint(srotate)))
+    if (IsNoHeader)
+        Rotate = 360U;
+    else
+        if ((IsCapRotate) && (srotate.length()))
         {
-            case 90:
-            case 180:
-            case 270:
-            case 360: /// mirror mode
-                break;
-            default:
+            switch ((Rotate = strToUint(srotate)))
+            {
+                case 90:
+                case 180:
+                case 270:
+                case 360: /// mirror mode
+                    break;
+                default:
                 {
-                    IsCapOrien =  false;
+                    IsCapRotate =  false;
                     Rotate = 0U;
+                    break;
                 }
+            }
         }
-    }
 
     if ((isPack) && (spack.length()))
     {
@@ -176,10 +186,21 @@ AScreenConf::AScreenConf(int32_t argc, char **argv)
     }
 
 #   if defined(_DEBUG)
-    __LOG_PRINT("CONFIG SET: -> %u/%u/%u [%d/%d/%d/%d/%d/%d] (%s)",
+    __LOG_PRINT("CONFIG SET: ->\n" \
+                "\tFile path:\t[%s]\n" \
+                "\tRatio:\t\t[%u]\n" \
+                "\tRotate:\t[%u]\n" \
+                "\tFastPack:\t[%u]\n" \
+                "\tIsNoHeader:\t[%d]\n" \
+                "\tIsCapStdOut:\t[%d]\n" \
+                "\tIsCapStream:\t[%d]\n" \
+                "\tIsCapFile:\t[%d]\n" \
+                "\tIsCapRatio:\t[%d]\n" \
+                "\tIsCapRotate:\t[%d]\n" \
+                "\tIsPackFile:\t[%d]\n",
+        FileName.c_str(),
         Ratio, Rotate, FastPack,
-        IsCapStdOut, IsCapStream, IsCapFile, IsCapRatio, IsCapOrien, IsPackFile,
-        FileName.c_str()
+        IsNoHeader, IsCapStdOut, IsCapStream, IsCapFile, IsCapRatio, IsCapRotate, IsPackFile
     );
 #   endif
 

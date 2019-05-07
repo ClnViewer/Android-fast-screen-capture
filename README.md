@@ -29,10 +29,12 @@ Run time statistic, milliseconds:
 
 ### Stream/Image compressed - header format using
 
-Packet stream include no pack header, size 96bit  `uint32[3]`, after image compressed body:
+Packet stream include no pack header, size 160bit  `uint32[5]`, after image compressed body:
 - octet `0` - unique identifier `BMZ1`.  
 - octet `1` - size to uncompressed image.
 - octet `2` - size to compressed image.
+- octet `3` - image width.
+- octet `4` - image height.
 
 ### Installing pre-build
 
@@ -50,7 +52,7 @@ Building details:
 
 Using ADB to send binary to device: 
 
-      adb pull dist/<my platform>/ascreencap /data/local/tmp/
+      adb push dist/<my platform>/ascreencap /data/local/tmp/
       adb shell chmod 0777 /data/local/tmp/ascreencap
 
 ### Using
@@ -61,6 +63,7 @@ Command line options:
 	-s	--stream	: output to loop stream (STDOUT)
 		--stdout	: output to STDOUT
 	-p	--pack		: output pack lz4 algorithm
+		--sdl		: output image SDL2 compatible mode: Landscape screen
 		--ratio 	: image resize ratio, valid scale 1-5
 		--rotate	: image rotate: 90,180,270, value 360 = mirror
 	-h	--help		: this help screen

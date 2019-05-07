@@ -49,6 +49,11 @@ void AScreenCap::setRotate(uint32_t r)
     _adata.rot = r;
 }
 
+void AScreenCap::setNohead(bool b)
+{
+    _adata.nohead = b;
+}
+
 bool AScreenCap::saveFile(std::string const & fname, bool ispack, int32_t fast)
 {
     int32_t fd = -1;
@@ -63,8 +68,6 @@ bool AScreenCap::saveFile(std::string const & fname, bool ispack, int32_t fast)
         if ((!_psz) || (!_dst))
             __ERROR_BOOL_SET;
 
-        __LOG_PRINT("saveFile -> %s", fname.c_str());
-
         if ((fd = open(fname.c_str(), O_RDWR | O_CREAT, 0666)) < 0)
             break;
         if ((_len = write(fd, _dst, _psz)) != static_cast<int32_t>(_psz))
@@ -72,7 +75,7 @@ bool AScreenCap::saveFile(std::string const & fname, bool ispack, int32_t fast)
 
         close(fd);
 #       if defined(_DEBUG)
-        __LOG_PRINT("Wrote %d bytes to %s", _len, fname.c_str());
+        __LOG_PRINT("Wrote %d/%zu bytes to %s", _len, _psz, fname.c_str());
 #       endif
         return true;
     }

@@ -17,6 +17,7 @@ class AScreenCap
 
         void    setRatio(uint32_t);
         void    setRotate(uint32_t);
+        void    setNohead(bool);
         int32_t getError() const;
         void    getStream(int32_t);
         bool    getScreen();

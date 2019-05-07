@@ -53,7 +53,7 @@ adbsetup:
 adbexec:
 	@echo '==== ADB RUN: [ $(PLATFORM) ] ===='
 	@Cmd.exe /C adb.exe shell /data/local/tmp/$(LOCAL_MODULE) $(CBP2NDK_CMDLINE)
-#	@Cmd.exe /C adb.exe pull /data/local/tmp/OutBmp.bmp C:/__BuildSource/__TEST__/Android/
+	@Cmd.exe /C adb.exe pull /data/local/tmp/OutBmp.bmp C:/__BuildSource/__TEST__/Android/
 
 adbdebug:
 	@echo '==== GDB Debug: [ $(PLATFORM) ] ===='

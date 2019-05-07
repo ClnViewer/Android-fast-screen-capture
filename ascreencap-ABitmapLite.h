@@ -12,6 +12,8 @@ class ABitmapLite
             uint32_t id;
             uint32_t osz;
             uint32_t dsz;
+            uint32_t w;
+            uint32_t h;
         } STREAMHEADER;
 
         typedef struct __attribute__((__packed__))
@@ -47,7 +49,7 @@ class ABitmapLite
         uint32_t w, h, s, b, f, rat, rot, bpp;
         uint8_t *src;
         uint8_t *dst;
-        bool ishead;
+        bool ishead, nohead;
         std::vector<uint8_t> vsrc;
         std::vector<uint8_t> vdst;
         std::vector<uint8_t> vdstz;
@@ -69,6 +71,7 @@ class ABitmapLite
     bool convertBmp();
     bool headerBmp();
     uint32_t getBpp() const;
+    uint32_t getPad(uint32_t) const;
 
 };
 

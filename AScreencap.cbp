@@ -12,7 +12,7 @@
 				<Option output="RunRemote.cmd" prefix_auto="0" extension_auto="0" />
 				<Option type="1" />
 				<Option compiler="android_ndk-build" />
-				<Option parameters="--ratio 2 --rotate 90 -f OutBmp.bmp -h" />
+				<Option parameters="--ratio 2 --sdl -f OutBmp.bmp" />
 				<Compiler>
 					<Add option="-D_DEBUG=1" />
 				</Compiler>

@@ -28,6 +28,7 @@ int main(int argc, char **argv)
 
     sc.setRatio(cnf.Ratio);
     sc.setRotate(cnf.Rotate);
+    sc.setNohead(cnf.IsNoHeader);
 
 #   if defined(_DEBUG)
     auto _t2 = HClockNow();
