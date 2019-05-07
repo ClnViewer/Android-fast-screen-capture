@@ -84,7 +84,7 @@ static uint32_t strToUint(std::string const opt)
 void AScreenConf::printHelp()
 {
     fprintf(stdout, "\n\tAndroid Screen Capture - v.%s, rev:%s, build: %s.%s.%s\n",
-            ACAP_SVN_REVISION, ACAP_FULLVERSION_STRING, ACAP_DATE, ACAP_MONTH, ACAP_YEAR
+            ACAP_FULLVERSION_STRING, ACAP_SVN_REVISION, ACAP_DATE, ACAP_MONTH, ACAP_YEAR
             );
     fprintf(stdout, "\tascreencap - replaced version of default screencap utility\n");
     fprintf(stdout, "\tgit: https://github.com/ClnViewer/Android-fast-screen-capture.git\n\n\n");
