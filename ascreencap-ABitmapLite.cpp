@@ -75,7 +75,7 @@ void ABitmapLite::SetData(const void *_src, size_t _sz)
             const_cast<void*>(_src)
             );
         vsrc.assign(&l_src[0], &l_src[0] + _sz);
-        std::reverse(vsrc.begin(), vsrc.end());
+        //std::reverse(vsrc.begin(), vsrc.end());
         sz = _sz;
         src = &vsrc[0];
         dst = nullptr;
