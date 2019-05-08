@@ -234,7 +234,7 @@ bool ABitmapLite::convertBmp()
                 &src[ssz],
                 &src[ssz + wsz]
             );
-            //std::reverse(v.begin(), v.end());
+            std::reverse(v.begin(), v.end());
 
             if ((!rat) && (pfmt == 24))
             {
@@ -249,9 +249,16 @@ bool ABitmapLite::convertBmp()
                     case 16:
                     {
                         uint16_t *pixel16 = (uint16_t*)(&v[sx]);
+/*
                         _dst[(dsz + dx + 2)] = (255 * (*pixel16 & 0x001F))/32;
                         _dst[(dsz + dx + 1)] = (255 * ((*pixel16 & 0x07E0) >> 5))/64;
                         _dst[(dsz + dx + 0)] = (255 * ((*pixel16 & 0xF800) >> 11))/32;
+*/
+///
+                        _dst[(dsz + dx + 0)] = (255 * (*pixel16 & 0x001F))/32;
+                        _dst[(dsz + dx + 1)] = (255 * ((*pixel16 & 0x07E0) >> 5))/64;
+                        _dst[(dsz + dx + 2)] = (255 * ((*pixel16 & 0xF800) >> 11))/32;
+
                         break;
                     }
                     case 24:
