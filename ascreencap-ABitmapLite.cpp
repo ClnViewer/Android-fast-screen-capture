@@ -234,7 +234,7 @@ bool ABitmapLite::convertBmp()
                 &src[ssz],
                 &src[ssz + wsz]
             );
-            std::reverse(v.begin(), v.end());
+            //std::reverse(v.begin(), v.end());
 
             if ((!rat) && (pfmt == 24))
             {
