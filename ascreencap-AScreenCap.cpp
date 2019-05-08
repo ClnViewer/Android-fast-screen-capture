@@ -86,7 +86,7 @@ bool AScreenCap::printStdout(bool ispack, int32_t fast)
     if ((!_psz) || (!_dst))
         __ERROR_BOOL_SET;
 
-    __LOG_PRINT("-> printStdout: [%d/%d] %u", ispack, fast, _psz);
+    __LOG_PRINT("-> printStdout: [%d/%d] %zu", ispack, fast, _psz);
     write(dup(STDOUT_FILENO), _dst, _psz);
     return true;
 }

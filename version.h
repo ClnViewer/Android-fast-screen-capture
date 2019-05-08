@@ -14,21 +14,21 @@
 	//Standard Version Type
 	#define ACAP_MAJOR  0
 	#define ACAP_MINOR  0
-	#define ACAP_BUILD  5
-	#define ACAP_REVISION  41
+	#define ACAP_BUILD  1
+	#define ACAP_REVISION  8
 	
 	//Miscellaneous Version Types
-	#define ACAP_BUILDS_COUNT  5
-	#define ACAP_RC_FILEVERSION 0,0,5,41
-	#define ACAP_RC_FILEVERSION_STRING "0, 0, 5, 41\0"
-	#define ACAP_FULLVERSION_STRING  "0.0.5.41"
+	#define ACAP_BUILDS_COUNT  0
+	#define ACAP_RC_FILEVERSION 0,0,1,8
+	#define ACAP_RC_FILEVERSION_STRING "0, 0, 1, 8\0"
+	#define ACAP_FULLVERSION_STRING  "0.0.1.8"
 	
 	//SVN Version
-	#define ACAP_SVN_REVISION "27"
-	#define ACAP_SVN_DATE "2019-05-08T06:54:02.056837Z"
+	#define ACAP_SVN_REVISION "90"
+	#define ACAP_SVN_DATE "2019-05-08T18:21:50.675095Z"
 	
 	//These values are to keep track of your versioning state, don't modify them.
-	#define ACAP_BUILD_HISTORY  5
+	#define ACAP_BUILD_HISTORY  1
 	
 
 #endif //VERSION_H

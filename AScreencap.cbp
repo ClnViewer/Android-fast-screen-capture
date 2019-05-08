@@ -17,7 +17,8 @@
 					<Add option="-D_DEBUG=1" />
 				</Compiler>
 				<Environment>
-					<Variable name="ANALIZE" value="1" />
+					<Variable name="ANALIZE" value="100" />
+					<Variable name="ELFCLEANER" value="100" />
 				</Environment>
 			</Target>
 			<Target title="Debug">
