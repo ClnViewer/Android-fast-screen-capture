@@ -49,7 +49,7 @@ class ABitmapLite
         uint32_t w, h, s, b, f, rat, rot, bpp;
         uint8_t *src;
         uint8_t *dst;
-        bool ishead, nohead;
+        bool ishead, issdlcompat;
         std::vector<uint8_t> vsrc;
         std::vector<uint8_t> vdst;
         std::vector<uint8_t> vdstz;
@@ -68,7 +68,7 @@ class ABitmapLite
     private:
 
     void rotateBmp(uint32_t);
-    bool convertBmp();
+    bool convertBmp(bool);
     bool headerBmp();
     uint32_t getBpp() const;
     uint32_t getPad(uint32_t) const;

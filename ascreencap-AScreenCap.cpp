@@ -39,7 +39,7 @@ void AScreenCap::setRotate(uint32_t r)
 
 void AScreenCap::setNohead(bool b)
 {
-    _adata.nohead = b;
+    _adata.issdlcompat = b;
 }
 
 bool AScreenCap::saveFile(std::string const & fname, bool ispack, int32_t fast)

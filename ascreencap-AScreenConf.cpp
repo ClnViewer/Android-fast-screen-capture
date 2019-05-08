@@ -42,7 +42,7 @@ static struct help_s helps[] =
         __HELP_SET(__CONF_CAPPACK, "\t: output pack lz4 algorithm")
     },
     {
-        __HELP_SET(__CONF_CAPSDL, "\t: output image SDL2 compatible mode: Landscape screen")
+        __HELP_SET(__CONF_CAPSDL, "\t: output SDL2 texture compatible mode: Landscape screen")
     },
     {
         __HELP_SET(__CONF_CAPRATIO, "\t: image resize ratio, valid scale 1-5")

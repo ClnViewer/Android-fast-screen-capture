@@ -3,23 +3,39 @@
 #include "ascreencap-ABitmapLite.h"
 #include "extern/lz4/lz4.h"
 
+#define _PIX_FORAT32_BMP(A,B) \
+    {                       \
+        uint32_t pos = A;   \
+        _dst[(pos + 2)] =  *(B) & 0x000000FF; \
+        _dst[(pos + 1)] = (*(B) & 0x0000FF00) >> 8; \
+        _dst[(pos + 0)] = (*(B) & 0x00FF0000) >> 16; \
+    }
+
+#define _PIX_FORAT32_SDL(A,B) \
+    {                       \
+        uint32_t pos = A;   \
+        _dst[(pos + 0)] = (*(B) & 0xFF000000) >> 24; \
+        _dst[(pos + 1)] = (*(B) & 0x00FF0000) >> 16; \
+        _dst[(pos + 2)] = (*(B) & 0x0000FF00) >> 8;  \
+    }
+
 namespace ACapture
 {
 
+/*
 struct _RGB {
     uint8_t r_, g_, b_, a_;
 };
-/*
 */
 
 ABitmapLite::ABitmapLite()
         : sz(0U), w(0U), h(0U), s(0U), b(0U), f(0U), rat(0U), rot(0U),
-          src(nullptr), dst(nullptr), ishead(false), nohead(false) {}
+          src(nullptr), dst(nullptr), ishead(false), issdlcompat(false) {}
 
 ABitmapLite::ABitmapLite(
     uint32_t _w, uint32_t _h, uint32_t _s, uint32_t _f, const void *_src, size_t _sz
     ) : sz(0U), w(0U), h(0U), s(0U), b(0U), f(0U), rat(0U), rot(0U),
-        src(nullptr), dst(nullptr), ishead(false), nohead(false)
+        src(nullptr), dst(nullptr), ishead(false), issdlcompat(false)
     {
         SetData(_w, _h, _s, _f, _src, _sz);
     }
@@ -75,7 +91,6 @@ void ABitmapLite::SetData(const void *_src, size_t _sz)
             const_cast<void*>(_src)
             );
         vsrc.assign(&l_src[0], &l_src[0] + _sz);
-        //std::reverse(vsrc.begin(), vsrc.end());
         sz = _sz;
         src = &vsrc[0];
         dst = nullptr;
@@ -90,10 +105,10 @@ uint8_t * ABitmapLite::GetData(size_t *psz)
             if (!TestData(true))
                 break;
 
-            if (!convertBmp())
+            if (!convertBmp(issdlcompat))
                 break;
 
-            if (!nohead)
+            if (!issdlcompat)
                 if (!headerBmp())
                     break;
 
@@ -193,7 +208,7 @@ uint32_t ABitmapLite::getPad(uint32_t _w) const
         return pad;
     }
 
-bool ABitmapLite::convertBmp()
+bool ABitmapLite::convertBmp(bool sdlcompat)
     {
         if (!src)
             return false;
@@ -216,6 +231,12 @@ bool ABitmapLite::convertBmp()
         sz = ((wdz + dpad) * hr);
         w  = ((rat) ? wr : w);
         h  = ((rat) ? hr : h);
+
+        if (!sdlcompat)
+        {
+            std::reverse(vsrc.begin(), vsrc.end());
+            src = &vsrc[0];
+        }
 
         vdst.resize(sz + sizeof(ABitmapLite::BMPHEADER));
         dst = &vdst[0];
@@ -262,16 +283,10 @@ bool ABitmapLite::convertBmp()
                     case 32:
                     {
                         uint32_t *pixel32 = (uint32_t*)(&v[sx]);
-//                        _dst[(dsz + dx + 2)] =  *pixel32 & 0x000000FF;
-//                        _dst[(dsz + dx + 1)] = (*pixel32 & 0x0000FF00) >> 8;
-//                        _dst[(dsz + dx + 0)] = (*pixel32 & 0x00FF0000) >> 16;
-
-//struct _RGB *rgb = (struct _RGB*)(&v[sx]);
-//
-                        _dst[(dsz + dx + 0)] = (*pixel32 & 0xFF000000) >> 24;//rgb->a_;
-                        _dst[(dsz + dx + 1)] = (*pixel32 & 0x00FF0000) >> 16;//rgb->b_;
-                        _dst[(dsz + dx + 2)] = (*pixel32 & 0x0000FF00) >> 8;//rgb->g_;
-
+                        if (sdlcompat)
+                            _PIX_FORAT32_SDL((dsz + dx), pixel32)
+                        else
+                            _PIX_FORAT32_BMP((dsz + dx), pixel32)
                         break;
                     }
                 }
