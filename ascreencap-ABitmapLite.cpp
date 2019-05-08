@@ -270,7 +270,7 @@ struct _RGB *rgb = (struct _RGB*)(&v[sx]);
 //
                         _dst[(dsz + dx + 0)] = rgb->a_;
                         _dst[(dsz + dx + 1)] = rgb->b_;
-                        _dst[(dsz + dx + 2)] = rgb->r_;
+                        _dst[(dsz + dx + 2)] = rgb->g_;
 
                         break;
                     }
