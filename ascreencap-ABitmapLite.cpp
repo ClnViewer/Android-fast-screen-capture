@@ -268,9 +268,9 @@ bool ABitmapLite::convertBmp()
 
 struct _RGB *rgb = (struct _RGB*)(&v[sx]);
 //
-                        _dst[(dsz + dx + 0)] = rgb->r_;
-                        _dst[(dsz + dx + 1)] = rgb->g_;
-                        _dst[(dsz + dx + 2)] = rgb->b_;
+                        _dst[(dsz + dx + 0)] = rgb->b_;
+                        _dst[(dsz + dx + 1)] = rgb->r_;
+                        _dst[(dsz + dx + 2)] = rgb->g_;
 
                         break;
                     }
