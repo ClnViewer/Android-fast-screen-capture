@@ -3,7 +3,7 @@
 #include "ascreencap-ABitmapLite.h"
 #include "extern/lz4/lz4.h"
 
-#define _PIX_FORAT32_BMP(A,B) \
+#define _PIX_FORMAT32_BMP(A,B) \
     {                       \
         uint32_t pos = A;   \
         _dst[(pos + 2)] =  *(B) & 0x000000FF; \
@@ -11,13 +11,30 @@
         _dst[(pos + 0)] = (*(B) & 0x00FF0000) >> 16; \
     }
 
-#define _PIX_FORAT32_SDL(A,B) \
+#define _PIX_FORMAT32_SDL(A,B) \
     {                       \
         uint32_t pos = A;   \
         _dst[(pos + 0)] = (*(B) & 0xFF000000) >> 24; \
         _dst[(pos + 1)] = (*(B) & 0x00FF0000) >> 16; \
         _dst[(pos + 2)] = (*(B) & 0x0000FF00) >> 8;  \
     }
+
+#define _PIX_FORMAT16_BMP(A,B) \
+    {                       \
+        uint32_t pos = A;   \
+        _dst[(pos + 2)] = (255 * (*(B) & 0x001F))/32; \
+        _dst[(pos + 1)] = (255 * ((*(B) & 0x07E0) >> 5))/64; \
+        _dst[(pos + 0)] = (255 * ((*(B) & 0xF800) >> 11))/32; \
+    }
+
+#define _PIX_FORMAT16_SDL(A,B) \
+    {                       \
+        uint32_t pos = A;   \
+        _dst[(pos + 2)] = (255 * ((*(B) & 0xF800) >> 11))/32; \
+        _dst[(pos + 1)] = (255 * ((*(B) & 0x07E0) >> 5))/64; \
+        _dst[(pos + 0)] = (255 * (*(B) & 0x001F))/32; \
+    }
+
 
 namespace ACapture
 {
@@ -259,6 +276,7 @@ bool ABitmapLite::convertBmp(bool sdlcompat)
 
             if ((!rat) && (pfmt == 24))
             {
+                /// TODO: sdl2 format make
                 memcpy(&_dst[dsz], &v[0], v.size());
                 continue;
             }
@@ -270,13 +288,15 @@ bool ABitmapLite::convertBmp(bool sdlcompat)
                     case 16:
                     {
                         uint16_t *pixel16 = (uint16_t*)(&v[sx]);
-                        _dst[(dsz + dx + 2)] = (255 * (*pixel16 & 0x001F))/32;
-                        _dst[(dsz + dx + 1)] = (255 * ((*pixel16 & 0x07E0) >> 5))/64;
-                        _dst[(dsz + dx + 0)] = (255 * ((*pixel16 & 0xF800) >> 11))/32;
+                        if (sdlcompat)
+                            _PIX_FORMAT16_SDL((dsz + dx), pixel32)
+                        else
+                            _PIX_FORMAT16_BMP((dsz + dx), pixel32)
                         break;
                     }
                     case 24:
                     {
+                        /// TODO: sdl2 format make
                         memcpy(&_dst[(dsz + dx)], &v[sx], b);
                         break;
                     }
@@ -284,9 +304,9 @@ bool ABitmapLite::convertBmp(bool sdlcompat)
                     {
                         uint32_t *pixel32 = (uint32_t*)(&v[sx]);
                         if (sdlcompat)
-                            _PIX_FORAT32_SDL((dsz + dx), pixel32)
+                            _PIX_FORMAT32_SDL((dsz + dx), pixel32)
                         else
-                            _PIX_FORAT32_BMP((dsz + dx), pixel32)
+                            _PIX_FORMAT32_BMP((dsz + dx), pixel32)
                         break;
                     }
                 }
@@ -449,12 +469,6 @@ bool ABitmapLite::headerBmp()
         bmph.ih.biBitCount = 24; //(b * 8);
         bmph.ih.biCompression = 0x0000; // BI_RGB
         bmph.ih.biSizeImage = 0;
-
-        /*
-            int32_t bpl = (w * b);
-            bpl = ((bpl & 0x0003) ? __extension__ ({ bpl |= 0x0003; ++bpl; }) : bpl);
-            bmph.fh.bfSize = (bmph.fh.bfOffBits + (bpl * bmph.ih.biHeight));
-        */
 
         if (!memcpy(&dst[0], &bmph, sizeof(bmph)))
             return false;
