@@ -249,16 +249,9 @@ bool ABitmapLite::convertBmp()
                     case 16:
                     {
                         uint16_t *pixel16 = (uint16_t*)(&v[sx]);
-/*
                         _dst[(dsz + dx + 2)] = (255 * (*pixel16 & 0x001F))/32;
                         _dst[(dsz + dx + 1)] = (255 * ((*pixel16 & 0x07E0) >> 5))/64;
                         _dst[(dsz + dx + 0)] = (255 * ((*pixel16 & 0xF800) >> 11))/32;
-*/
-///
-                        _dst[(dsz + dx + 0)] = (255 * (*pixel16 & 0x001F))/32;
-                        _dst[(dsz + dx + 1)] = (255 * ((*pixel16 & 0x07E0) >> 5))/64;
-                        _dst[(dsz + dx + 2)] = (255 * ((*pixel16 & 0xF800) >> 11))/32;
-
                         break;
                     }
                     case 24:
@@ -269,9 +262,14 @@ bool ABitmapLite::convertBmp()
                     case 32:
                     {
                         uint32_t *pixel32 = (uint32_t*)(&v[sx]);
-                        _dst[(dsz + dx + 2)] =  *pixel32 & 0x000000FF;
+//                        _dst[(dsz + dx + 2)] =  *pixel32 & 0x000000FF;
+//                        _dst[(dsz + dx + 1)] = (*pixel32 & 0x0000FF00) >> 8;
+//                        _dst[(dsz + dx + 0)] = (*pixel32 & 0x00FF0000) >> 16;
+//
+                        _dst[(dsz + dx + 0)] =  *pixel32 & 0x000000FF;
                         _dst[(dsz + dx + 1)] = (*pixel32 & 0x0000FF00) >> 8;
-                        _dst[(dsz + dx + 0)] = (*pixel32 & 0x00FF0000) >> 16;
+                        _dst[(dsz + dx + 2)] = (*pixel32 & 0x00FF0000) >> 16;
+
                         break;
                     }
                 }
