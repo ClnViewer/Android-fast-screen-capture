@@ -7,7 +7,7 @@ class AScreenCap
 {
     private:
         ACapture::ABitmapLite _adata;
-        android::ScreenshotClient *_sc;
+        android::ScreenshotClient _sc;
         android::sp<android::IBinder> _dsp;
         std::atomic<int32_t> _err;
 

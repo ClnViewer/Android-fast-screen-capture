@@ -45,7 +45,7 @@ static struct help_s helps[] =
         __HELP_SET(__CONF_CAPSDL, "\t: output image SDL2 compatible mode: Landscape screen")
     },
     {
-        __HELP_SET(__CONF_CAPRATIO, ": image resize ratio, valid scale 1-5")
+        __HELP_SET(__CONF_CAPRATIO, "\t: image resize ratio, valid scale 1-5")
     },
     {
         __HELP_SET(__CONF_CAPROTATE, ": image rotate: 90,180,270, value 360 = mirror")

@@ -3,7 +3,7 @@ include $(CLEAR_VARS)
 LOCAL_MODULE    := ascreencap
 LOCAL_CPP_EXTENSION := .cpp
 LOCAL_SRC_FILES := ascreencap-ABitmapLite.cpp ascreencap-AScreenCap.cpp ascreencap-AScreenConf.cpp ascreencap.cpp extern/lz4/lz4.c
-LOCAL_CFLAGS := -Wall -Wno-unknown-pragmas -fopenmp -fexceptions
+LOCAL_CFLAGS := -D_DEBUG=1 -Wall -Wno-unknown-pragmas -fopenmp -fexceptions
 LOCAL_CPPFLAGS := -std=c++17
 LOCAL_LDFLAGS := -L./fakelib/libs/$(TARGET_ARCH_ABI) -Wl,--gc-sections
 LOCAL_LDLIBS := -lutils -lgui -lbinder -lomp -llog

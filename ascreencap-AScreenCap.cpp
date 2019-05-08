@@ -8,30 +8,18 @@ namespace ACapture
 {
 
 AScreenCap::AScreenCap()
-    : _adata({}), _sc(nullptr), _dsp({}), _err(0)
+    : _adata({}), _sc({}), _dsp({}), _err(0)
 {
-    if (!(_sc = new android::ScreenshotClient()))
-    {
+    _sc = android::ScreenshotClient();
+    if ((_dsp = android::SurfaceComposerClient::getBuiltInDisplay(
+                android::ISurfaceComposer::eDisplayIdMain
+                )) == nullptr)
         __ERROR_THIS_SET;
-    }
-    else
-        if ((_dsp = android::SurfaceComposerClient::getBuiltInDisplay(
-                    android::ISurfaceComposer::eDisplayIdMain
-                    )) == nullptr)
-            __ERROR_THIS_SET;
 }
 
 AScreenCap::~AScreenCap()
 {
-    if (_sc)
-    {
-        _sc->release();
-        delete _sc;
-    }
-    _sc = nullptr;
-
-    _adata.~ABitmapLite();
-
+    _sc.release();
 }
 
 int32_t AScreenCap::getError() const
@@ -98,7 +86,8 @@ bool AScreenCap::printStdout(bool ispack, int32_t fast)
     if ((!_psz) || (!_dst))
         __ERROR_BOOL_SET;
 
-    fwrite(_dst, 1U, _psz, stdout);
+    __LOG_PRINT("-> printStdout: [%d/%d] %u", ispack, fast, _psz);
+    write(dup(STDOUT_FILENO), _dst, _psz);
     return true;
 }
 
@@ -111,18 +100,18 @@ bool AScreenCap::getScreen()
     {
         _adata.Reset();
 
-        if (_sc->update(_dsp, android::Rect(0, 0), false) != android::NO_ERROR)
+        if (_sc.update(_dsp, android::Rect(0, 0), false) != android::NO_ERROR)
             __ERROR_BREAK_SET;
 
         errno = 0;
 
         _adata.SetData(
-            _sc->getWidth(),
-            _sc->getHeight(),
-            _sc->getStride(),
-            _sc->getFormat(),
-            _sc->getPixels(),
-            _sc->getSize()
+            _sc.getWidth(),
+            _sc.getHeight(),
+            _sc.getStride(),
+            _sc.getFormat(),
+            _sc.getPixels(),
+            _sc.getSize()
             );
 
         if (!_adata.TestData(true))
@@ -133,12 +122,13 @@ bool AScreenCap::getScreen()
     if (_err)
         _adata.Reset();
 
-    _sc->release();
+    _sc.release();
     return (!_err);
 }
 
 void AScreenCap::getStream(int32_t fast)
 {
+    int32_t fd = dup(STDOUT_FILENO);
     do
     {
         if ((!getScreen()) || (getError()))
@@ -148,7 +138,7 @@ void AScreenCap::getStream(int32_t fast)
         uint8_t *_dst = _adata.GetDataPack(&_psz, fast);
 
         if ((_dst) && (_psz))
-            fwrite(_dst, 1, _psz, stdout);
+            write(fd, _dst, _psz);
     }
     while (true);
 }

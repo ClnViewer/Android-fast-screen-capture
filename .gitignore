@@ -1,4 +1,6 @@
 
+utils/*
+
 .svn
 # Prerequisites
 *.d
