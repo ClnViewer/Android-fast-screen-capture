@@ -7,7 +7,7 @@ namespace ACapture
 {
 
 struct _RGB {
-    uint8_t r_, g_, b_, _a;
+    uint8_t r_, g_, b_, a_;
 };
 /*
 */
@@ -268,9 +268,9 @@ bool ABitmapLite::convertBmp()
 
 struct _RGB *rgb = (struct _RGB*)(&v[sx]);
 //
-                        _dst[(dsz + dx + 0)] = rgb->_r;
-                        _dst[(dsz + dx + 1)] = rgb->_g;
-                        _dst[(dsz + dx + 2)] = rgb->_b;
+                        _dst[(dsz + dx + 0)] = rgb->r_;
+                        _dst[(dsz + dx + 1)] = rgb->g_;
+                        _dst[(dsz + dx + 2)] = rgb->b_;
 
                         break;
                     }
