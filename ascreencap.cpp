@@ -44,7 +44,7 @@ int main(int argc, char **argv)
                 auto _t3 = HClockNow();
 #               endif
                 if (!sc.getError())
-                    if (sc.saveFile(cnf.FileName, cnf.IsPackFile, cnf.FastPack))
+                    if (sc.saveFile(cnf.FileName, cnf.IsCapPack, cnf.FastPack))
                     {
 #                       if defined(_DEBUG)
                         auto _t4 = HClockNow();
@@ -68,7 +68,7 @@ int main(int argc, char **argv)
             if (sc.getScreen())
             {
                 if (!sc.getError())
-                    if (sc.printStdout(cnf.IsPackFile, cnf.FastPack))
+                    if (sc.printStdout(cnf.IsCapPack, cnf.FastPack))
                         break;
             }
             __LOG_PRINT("Capture to stdout error [%d]", sc.getError());

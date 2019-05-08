@@ -14,7 +14,7 @@ class AScreenConf
         bool IsCapStdOut;
         bool IsCapRatio;
         bool IsCapRotate;
-        bool IsPackFile;
+        bool IsCapPack;
         bool IsNoHeader;
         bool IsHelp;
         uint32_t Ratio;

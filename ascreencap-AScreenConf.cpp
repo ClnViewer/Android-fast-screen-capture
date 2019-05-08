@@ -95,7 +95,7 @@ void AScreenConf::printHelp()
 AScreenConf::AScreenConf(int32_t argc, char **argv)
     : _err(0),
       IsCapStream(false), IsCapFile(false), IsCapStdOut(false),
-      IsCapRatio(false), IsCapRotate(false), IsPackFile(false), IsNoHeader(false), IsHelp(false),
+      IsCapRatio(false), IsCapRotate(false), IsCapPack(false), IsNoHeader(false), IsHelp(false),
       Ratio(0U), Rotate(0U), FastPack(0U)
 {
     argh::parser lcmd({
@@ -121,8 +121,8 @@ AScreenConf::AScreenConf(int32_t argc, char **argv)
     IsCapStream = (lcmd[{ __CONF_CAPSTREAM }]);
     IsCapFile   = !(!(lcmd({ __CONF_CAPFILE })   >> FileName));
     IsCapRatio  = !(!(lcmd({ __CONF_CAPRATIO })  >> sratio));
-    IsCapRotate  = !(!(lcmd({ __CONF_CAPROTATE }) >> srotate));
-    bool isPack = !(!(lcmd({ __CONF_CAPPACK })   >> spack));
+    IsCapRotate = !(!(lcmd({ __CONF_CAPROTATE }) >> srotate));
+    IsCapPack   = !(!(lcmd({ __CONF_CAPPACK })   >> spack));
 
     if (!IsCapStdOut)
     {
@@ -134,7 +134,7 @@ AScreenConf::AScreenConf(int32_t argc, char **argv)
             {
                 std::string ext = FileName.substr(sp, FileName.length() - sp);
                 if (!ext.compare(0U, ext.length(), ".bmz"))
-                    IsPackFile = true;
+                    IsCapPack = true;
             }
         }
         if (FileName.find("/") == std::wstring::npos)
@@ -179,7 +179,7 @@ AScreenConf::AScreenConf(int32_t argc, char **argv)
             }
         }
 
-    if ((isPack) && (spack.length()))
+    if ((IsCapPack) && (spack.length()))
     {
         FastPack = strToUint(spack);
         FastPack = ((FastPack > 9) ? 0 : (9 - FastPack));
@@ -197,10 +197,10 @@ AScreenConf::AScreenConf(int32_t argc, char **argv)
                 "\tIsCapFile:\t[%d]\n" \
                 "\tIsCapRatio:\t[%d]\n" \
                 "\tIsCapRotate:\t[%d]\n" \
-                "\tIsPackFile:\t[%d]\n",
+                "\tIsCapPack:\t[%d]\n",
         FileName.c_str(),
         Ratio, Rotate, FastPack,
-        IsNoHeader, IsCapStdOut, IsCapStream, IsCapFile, IsCapRatio, IsCapRotate, IsPackFile
+        IsNoHeader, IsCapStdOut, IsCapStream, IsCapFile, IsCapRatio, IsCapRotate, IsCapPack
     );
 #   endif
 
