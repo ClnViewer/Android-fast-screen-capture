@@ -266,9 +266,9 @@ bool ABitmapLite::convertBmp()
 //                        _dst[(dsz + dx + 1)] = (*pixel32 & 0x0000FF00) >> 8;
 //                        _dst[(dsz + dx + 0)] = (*pixel32 & 0x00FF0000) >> 16;
 //
-                        _dst[(dsz + dx + 0)] =  *pixel32 & 0x000000FF;
+                        _dst[(dsz + dx + 1)] =  *pixel32 & 0x000000FF;
                         _dst[(dsz + dx + 2)] = (*pixel32 & 0x0000FF00) >> 8;
-                        _dst[(dsz + dx + 1)] = (*pixel32 & 0x00FF0000) >> 16;
+                        _dst[(dsz + dx + 0)] = (*pixel32 & 0x00FF0000) >> 16;
 
                         break;
                     }
