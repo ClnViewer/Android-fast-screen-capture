@@ -289,9 +289,9 @@ bool ABitmapLite::convertBmp(bool sdlcompat)
                     {
                         uint16_t *pixel16 = (uint16_t*)(&v[sx]);
                         if (sdlcompat)
-                            _PIX_FORMAT16_SDL((dsz + dx), pixel32)
+                            _PIX_FORMAT16_SDL((dsz + dx), pixel16)
                         else
-                            _PIX_FORMAT16_BMP((dsz + dx), pixel32)
+                            _PIX_FORMAT16_BMP((dsz + dx), pixel16)
                         break;
                     }
                     case 24:
