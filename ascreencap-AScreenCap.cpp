@@ -100,7 +100,13 @@ bool AScreenCap::getScreen()
     {
         _adata.Reset();
 
+#       if (__ANDROID_API__ >= 21)
         if (_sc.update(_dsp, android::Rect(0, 0), false) != android::NO_ERROR)
+#       elif (__ANDROID_API__ >= 17)
+        if (_sc.update(_dsp) != android::NO_ERROR)
+#       else
+        if (_sc.update() != android::NO_ERROR)
+#       endif
             __ERROR_BREAK_SET;
 
         errno = 0;

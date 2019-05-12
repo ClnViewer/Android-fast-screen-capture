@@ -13,12 +13,12 @@
 				<Option type="1" />
 				<Option compiler="android_ndk-build" />
 				<Option parameters="--ratio 2 --rotate 360 -f OutBmp.bmp" />
-				<Compiler>
-					<Add option="-D_DEBUG=1" />
-				</Compiler>
+				<ExtraCommands>
+					<Add after="Cmd.exe /C android-elf-cleaner.exe libs\armeabi-v7a\ascreencap" />
+				</ExtraCommands>
 				<Environment>
-					<Variable name="ANALIZE" value="100" />
-					<Variable name="ELFCLEANER" value="100" />
+					<Variable name="ANALIZE" value="1" />
+					<Variable name="ELFCLEANER" value="1" />
 				</Environment>
 			</Target>
 			<Target title="Debug">
@@ -26,6 +26,16 @@
 				<Option type="1" />
 				<Option compiler="android_ndk-build" />
 				<Option parameters="--ratio 2 --rotate 90  -f OutBmp.bmz" />
+				<Compiler>
+					<Add option="-D_DEBUG=1" />
+				</Compiler>
+				<ExtraCommands>
+					<Add after="Cmd.exe /C android-elf-cleaner.exe libs\armeabi-v7a\ascreencap" />
+				</ExtraCommands>
+				<Environment>
+					<Variable name="ANALIZE" value="1" />
+					<Variable name="ELFCLEANER" value="1" />
+				</Environment>
 			</Target>
 		</Build>
 		<Compiler>
