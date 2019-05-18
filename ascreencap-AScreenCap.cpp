@@ -139,8 +139,8 @@ void AScreenCap::getStream(int32_t fast)
                 while(_ready.load())
                     std::this_thread::yield();
 
-                sysCap();
-                _ready = true;
+                if (sysCap())
+                    _ready = true;
             }
         }
     };
@@ -200,7 +200,6 @@ bool AScreenCap::getLoop()
             _sc.getSize()
         );
 
-        _sc.release();
         _ready = false;
 
         if (!_adata.TestData(true))
