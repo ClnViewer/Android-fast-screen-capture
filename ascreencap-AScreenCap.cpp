@@ -128,13 +128,22 @@ bool AScreenCap::getScreen()
 
 void AScreenCap::getStream(int32_t fast)
 {
-    bool ret;
     int32_t fd = dup(STDOUT_FILENO);
-    _fcap = std::async(
-            std::launch::async,
-            std::bind(&AScreenCap::sysCap, this)
-        );
+    _ready = false;
+    std::thread thr
+    {
+        [=]()
+        {
+            while(true)
+            {
+                while(_ready.load())
+                    std::this_thread::yield();
 
+                sysCap();
+                _ready = true;
+            }
+        }
+    };
     do
     {
         if ((!getLoop()) || (getError()))
@@ -150,8 +159,8 @@ void AScreenCap::getStream(int32_t fast)
 
     try
     {
-        if (_fcap.valid())
-            ret = _fcap.get();
+        if (thr.joinable())
+            thr.join();
     }
     catch (...) {}
 }
@@ -179,38 +188,20 @@ bool AScreenCap::getLoop()
     {
         _adata.Reset();
 
-        do
-        {
-            try
-            {
-                if (!_fcap.valid())
-                    __ERROR_BREAK_SET;
-                if (!_fcap.get())
-                    __ERROR_BREAK_SET;
-            }
-            catch (...)
-            {
-                __ERROR_BREAK_SET;
-            }
+        while(!_ready.load())
+            std::this_thread::yield();
 
-            _adata.SetData(
-                _sc.getWidth(),
-                _sc.getHeight(),
-                _sc.getStride(),
-                _sc.getFormat(),
-                _sc.getPixels(),
-                _sc.getSize()
-            );
-        }
-        while (0);
-
-        _fcap = std::async(
-            std::launch::async,
-            std::bind(&AScreenCap::sysCap, this)
+        _adata.SetData(
+            _sc.getWidth(),
+            _sc.getHeight(),
+            _sc.getStride(),
+            _sc.getFormat(),
+            _sc.getPixels(),
+            _sc.getSize()
         );
 
-        if (_err)
-            break;
+        _sc.release();
+        _ready = false;
 
         if (!_adata.TestData(true))
             __ERROR_BREAK_SET;

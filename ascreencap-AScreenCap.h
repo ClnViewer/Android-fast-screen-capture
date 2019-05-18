@@ -10,7 +10,7 @@ class AScreenCap
         android::ScreenshotClient _sc;
         android::sp<android::IBinder> _dsp;
         std::atomic<int32_t> _err;
-        std::future<bool> _fcap;
+        std::atomic<bool> _ready;
 
         bool    getLoop();
         bool    sysCap();
