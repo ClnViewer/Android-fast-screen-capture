@@ -2,7 +2,7 @@
 #define VERSION_H
 
 	//Date Version Types
-	#define ACAP_DATE "12"
+	#define ACAP_DATE "18"
 	#define ACAP_MONTH "05"
 	#define ACAP_YEAR "2019"
 	#define ACAP_UBUNTU_VERSION_STYLE  "19.05"
@@ -14,21 +14,21 @@
 	//Standard Version Type
 	#define ACAP_MAJOR  0
 	#define ACAP_MINOR  0
-	#define ACAP_BUILD  1
-	#define ACAP_REVISION  7
+	#define ACAP_BUILD  4
+	#define ACAP_REVISION  23
 	
 	//Miscellaneous Version Types
-	#define ACAP_BUILDS_COUNT  0
-	#define ACAP_RC_FILEVERSION 0,0,1,7
-	#define ACAP_RC_FILEVERSION_STRING "0, 0, 1, 7\0"
-	#define ACAP_FULLVERSION_STRING  "0.0.1.7"
+	#define ACAP_BUILDS_COUNT  3
+	#define ACAP_RC_FILEVERSION 0,0,4,23
+	#define ACAP_RC_FILEVERSION_STRING "0, 0, 4, 23\0"
+	#define ACAP_FULLVERSION_STRING  "0.0.4.23"
 	
 	//SVN Version
 	#define ACAP_SVN_REVISION "90"
 	#define ACAP_SVN_DATE "2019-05-08T18:21:50.675095Z"
 	
 	//These values are to keep track of your versioning state, don't modify them.
-	#define ACAP_BUILD_HISTORY  1
+	#define ACAP_BUILD_HISTORY  4
 	
 
 #endif //VERSION_H

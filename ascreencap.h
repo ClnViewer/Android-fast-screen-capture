@@ -3,6 +3,8 @@
 #include <memory>
 #include <vector>
 #include <string>
+#include <future>
+
 
 #if defined(_DEBUG)
 #   include <chrono>

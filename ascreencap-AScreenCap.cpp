@@ -100,13 +100,7 @@ bool AScreenCap::getScreen()
     {
         _adata.Reset();
 
-#       if (__ANDROID_API__ >= 21)
-        if (_sc.update(_dsp, android::Rect(0, 0), false) != android::NO_ERROR)
-#       elif (__ANDROID_API__ >= 17)
-        if (_sc.update(_dsp) != android::NO_ERROR)
-#       else
-        if (_sc.update() != android::NO_ERROR)
-#       endif
+        if (!sysCap())
             __ERROR_BREAK_SET;
 
         errno = 0;
@@ -134,10 +128,16 @@ bool AScreenCap::getScreen()
 
 void AScreenCap::getStream(int32_t fast)
 {
+    bool ret;
     int32_t fd = dup(STDOUT_FILENO);
+    _fcap = std::async(
+            std::launch::async,
+            std::bind(&AScreenCap::sysCap, this)
+        );
+
     do
     {
-        if ((!getScreen()) || (getError()))
+        if ((!getLoop()) || (getError()))
             continue;
 
         size_t _psz = 0U;
@@ -147,6 +147,80 @@ void AScreenCap::getStream(int32_t fast)
             write(fd, _dst, _psz);
     }
     while (true);
+
+    try
+    {
+        if (_fcap.valid())
+            ret = _fcap.get();
+    }
+    catch (...) {}
+}
+
+bool AScreenCap::sysCap()
+{
+    _sc.release();
+#   if (__ANDROID_API__ >= 21)
+    if (_sc.update(_dsp, android::Rect(0, 0), false) != android::NO_ERROR)
+#   elif (__ANDROID_API__ >= 17)
+    if (_sc.update(_dsp) != android::NO_ERROR)
+#   else
+    if (_sc.update() != android::NO_ERROR)
+#   endif
+        return false;
+    return true;
+}
+
+bool AScreenCap::getLoop()
+{
+    _err = 0;
+    errno = 0;
+
+    do
+    {
+        _adata.Reset();
+
+        do
+        {
+            try
+            {
+                if (!_fcap.valid())
+                    __ERROR_BREAK_SET;
+                if (!_fcap.get())
+                    __ERROR_BREAK_SET;
+            }
+            catch (...)
+            {
+                __ERROR_BREAK_SET;
+            }
+
+            _adata.SetData(
+                _sc.getWidth(),
+                _sc.getHeight(),
+                _sc.getStride(),
+                _sc.getFormat(),
+                _sc.getPixels(),
+                _sc.getSize()
+            );
+        }
+        while (0);
+
+        _fcap = std::async(
+            std::launch::async,
+            std::bind(&AScreenCap::sysCap, this)
+        );
+
+        if (_err)
+            break;
+
+        if (!_adata.TestData(true))
+            __ERROR_BREAK_SET;
+    }
+    while (0);
+
+    if (_err)
+        _adata.Reset();
+
+    return (!_err);
 }
 
 }
