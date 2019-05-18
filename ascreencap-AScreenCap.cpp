@@ -8,7 +8,7 @@ namespace ACapture
 {
 
 AScreenCap::AScreenCap()
-    : _adata({}), _sc({}), _dsp({}), _err(0)
+    : _adata({}), _sc({}), _dsp({}), _err(0), _ready(false)
 {
     _sc = android::ScreenshotClient();
     if ((_dsp = android::SurfaceComposerClient::getBuiltInDisplay(
