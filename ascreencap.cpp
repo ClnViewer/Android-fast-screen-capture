@@ -6,6 +6,28 @@
 #include "extern/argh.h"
 #include <binder/ProcessState.h>
 #include <binder/IPCThreadState.h>
+#include <signal.h>
+
+static struct sigaction sigThis{};
+
+static void exitSignal(int sig)
+{
+    __LOG_PRINT("exitHandler signal: [%d]", sig);
+    exit(1);
+}
+
+static bool setSignal()
+{
+    sigThis.sa_handler = exitSignal;
+    sigThis.sa_flags = 0;
+    ::sigemptyset(&sigThis.sa_mask);
+    ::sigaddset(&sigThis.sa_mask, SIGPIPE);
+
+    return (
+        (::sigaction(SIGINT, &sigThis, NULL) == 0) &&
+        (::sigprocmask(SIG_BLOCK, &sigThis.sa_mask, NULL) == 0)
+        );
+}
 
 int main(int argc, char **argv)
 {
@@ -16,6 +38,12 @@ int main(int argc, char **argv)
 
     android::sp<android::ProcessState> proc(android::ProcessState::self());
     android::ProcessState::self()->startThreadPool();
+
+    if (!setSignal())
+    {
+        __LOG_PRINT("Signal not set: [%s]", strerror(errno));
+        return 120;
+    }
 
     ACapture::AScreenConf cnf(argc, argv);
     ACapture::AScreenCap sc;
