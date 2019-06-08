@@ -8,6 +8,7 @@ LOCAL_CPPFLAGS := -std=c++17
 LOCAL_SRC_FILES := libgui.cpp
 LOCAL_LDLIBS := -llog
 # LOCAL_SHARED_LIBRARIES := liblog
+LOCAL_C_INCLUDES := include
 LOCAL_MODULE_PATH := $(TARGET_OUT)/libs
 include $(BUILD_SHARED_LIBRARY)
 
@@ -21,6 +22,7 @@ LOCAL_CPPFLAGS := -std=c++17
 LOCAL_SRC_FILES := libbinder.cpp
 LOCAL_LDLIBS := -llog
 # LOCAL_SHARED_LIBRARIES := liblog
+LOCAL_C_INCLUDES := include
 LOCAL_MODULE_PATH := $(TARGET_OUT)/libs
 include $(BUILD_SHARED_LIBRARY)
 
@@ -34,5 +36,20 @@ LOCAL_CPPFLAGS := -std=c++17
 LOCAL_SRC_FILES := libutils.cpp
 LOCAL_LDLIBS := -llog
 # LOCAL_SHARED_LIBRARIES := liblog
+LOCAL_C_INCLUDES := include
+LOCAL_MODULE_PATH := $(TARGET_OUT)/libs
+include $(BUILD_SHARED_LIBRARY)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := libart
+LOCAL_INSTALLED_MODULE_STEM := libart.so
+LOCAL_SDK_VERSION := 22
+LOCAL_CPP_EXTENSION := .cpp
+LOCAL_CPPFLAGS := -std=c++17
+LOCAL_SRC_FILES := libart.cpp
+LOCAL_LDLIBS := -llog
+LOCAL_LDFLAGS := -Wl,--version-script,vs-libart.txt
+# LOCAL_SHARED_LIBRARIES := liblog
+LOCAL_C_INCLUDES := include
 LOCAL_MODULE_PATH := $(TARGET_OUT)/libs
 include $(BUILD_SHARED_LIBRARY)

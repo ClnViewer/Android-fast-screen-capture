@@ -30,7 +30,7 @@
          __android_log_print(ANDROID_LOG_DEBUG, "ASCREENCAP", "+ [%s:%d] " A, B, C, __VA_ARGS__)
 #  else
 #     define __LOG_PRINT_(A, B, C,...) \
-    	fprintf(stderr, "+ [%s:%d] " A " | global: [%d][%s]\n", B, C, __VA_ARGS__, errno, strerror(errno))
+    	{ fprintf(stderr, "+ [%s:%d] " A " | global: [%d][%s]\n", B, C, __VA_ARGS__, errno, strerror(errno)); errno = 0; }
 #  endif
 
 #else

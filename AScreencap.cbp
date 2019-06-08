@@ -13,6 +13,8 @@
 				<Option type="1" />
 				<Option compiler="android_ndk-build" />
 				<Option parameters="--ratio 2 --rotate 360 -f OutBmp.bmp" />
+				<Compiler>
+				</Compiler>
 				<ExtraCommands>
 					<Add after="Cmd.exe /C android-elf-cleaner.exe libs\armeabi-v7a\ascreencap" />
 				</ExtraCommands>
@@ -44,6 +46,7 @@
 			<Add option="-Wno-unknown-pragmas" />
 			<Add option="-fopenmp" />
 			<Add option="-fexceptions" />
+			<Add option="-Ifakelib/include" />
 			<Add option="-IC:/__BuildSource/__LIB__/android-aosp-header/android-5.1.1_r1/system/core/include" />
 			<Add option="-IC:/__BuildSource/__LIB__/android-aosp-header/android-5.1.1_r1/frameworks/base/include" />
 			<Add option="-IC:/__BuildSource/__LIB__/android-aosp-header/android-5.1.1_r1/frameworks/native/include" />

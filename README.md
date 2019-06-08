@@ -49,8 +49,9 @@ Download binary for you device from [dist/](https://github.com/ClnViewer/Android
 Building details:
 
 > Application platform: `android-22`   
-> Android system library compatible: `5.1.1`   
+> Android system library compatible: `5.1.1 - 7.x.x`   
 > NDK build version: `r20-beta2`   
+> NOT support Android version >= `9.x.x`   
 
 Using ADB to send binary to device: 
 

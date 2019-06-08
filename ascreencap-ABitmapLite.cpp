@@ -46,13 +46,11 @@ struct _RGB {
 */
 
 ABitmapLite::ABitmapLite()
-        : sz(0U), w(0U), h(0U), s(0U), b(0U), f(0U), rat(0U), rot(0U),
-          src(nullptr), dst(nullptr), ishead(false), issdlcompat(false) {}
+        : ishead(false), issdlcompat(false), rat(0U), rot(0U) {}
 
 ABitmapLite::ABitmapLite(
     uint32_t _w, uint32_t _h, uint32_t _s, uint32_t _f, const void *_src, size_t _sz
-    ) : sz(0U), w(0U), h(0U), s(0U), b(0U), f(0U), rat(0U), rot(0U),
-        src(nullptr), dst(nullptr), ishead(false), issdlcompat(false)
+    ) : ishead(false), issdlcompat(false), rat(0U), rot(0U)
     {
         SetData(_w, _h, _s, _f, _src, _sz);
     }
@@ -62,19 +60,17 @@ ABitmapLite::~ABitmapLite() {}
 bool ABitmapLite::TestData(bool issrc)
     {
         return !(
-                 (!w)  ||
-                 (!h)  ||
-                 (!s)  ||
-                 (!sz) ||
-                 ((issrc) && (!src))
+                 (!bmpdata.w)  ||
+                 (!bmpdata.h)  ||
+                 (!bmpdata.s)  ||
+                 (!bmpdata.sz) ||
+                 ((issrc) && (!bmpdata.src))
                 );
     }
 
 void ABitmapLite::Reset()
     {
-        sz = 0U;
-        w = h = s = b = f = bpp = 0U;
-        src = dst = nullptr;
+        ::memset(&bmpdata, 0, sizeof(bmpdata));
         ishead = false;
 
         if (vsrc.size())
@@ -89,15 +85,15 @@ void ABitmapLite::SetData(
     uint32_t _w, uint32_t _h, uint32_t _s, uint32_t _f, const void *_src, size_t _sz
     )
     {
-        w = _w;
-        h = _h;
-        s = _s;
-        f = _f;
-        sz = _sz;
+        bmpdata.w = _s; //_w
+        bmpdata.h = _h;
+        bmpdata.s = _s;
+        bmpdata.f = _f;
+        bmpdata.sz = _sz;
 
         if (TestData(false))
         {
-            b = (sz / w / h);
+            bmpdata.b = (bmpdata.sz / bmpdata.w / bmpdata.h);
             SetData(_src, _sz);
         }
     }
@@ -108,9 +104,9 @@ void ABitmapLite::SetData(const void *_src, size_t _sz)
             const_cast<void*>(_src)
             );
         vsrc.assign(&l_src[0], &l_src[0] + _sz);
-        sz = _sz;
-        src = &vsrc[0];
-        dst = nullptr;
+        bmpdata.sz = _sz;
+        bmpdata.src = &vsrc[0];
+        bmpdata.dst = nullptr;
     }
 
 uint8_t * ABitmapLite::GetData(size_t *psz)
@@ -130,10 +126,10 @@ uint8_t * ABitmapLite::GetData(size_t *psz)
                     break;
 
             *psz = ((ishead) ?
-                    (sz + sizeof(ABitmapLite::BMPHEADER)) : sz
+                    (bmpdata.sz + sizeof(ABitmapLite::BMPHEADER)) : bmpdata.sz
                 );
             return ((ishead) ?
-                    &dst[0] : &dst[sizeof(ABitmapLite::BMPHEADER)]
+                    &bmpdata.dst[0] : &bmpdata.dst[sizeof(ABitmapLite::BMPHEADER)]
                 );
         }
         while (0);
@@ -178,14 +174,14 @@ uint8_t * ABitmapLite::GetDataPack(size_t *psz, int32_t fast)
                 BMZ_MAGIC,
                 static_cast<uint32_t>(*psz),
                 static_cast<uint32_t>(lzrsz),
-                w,
-                h
+                bmpdata.w,
+                bmpdata.h
             };
             memcpy(&vdstz[0], &sh, sizeof(sh));
 
             *psz =  vdstz.size();
-            dst  = &vdstz[0];
-            return &dst[0];
+            bmpdata.dst  = &vdstz[0];
+            return &bmpdata.dst[0];
         }
         while (0);
 
@@ -196,19 +192,21 @@ uint8_t * ABitmapLite::GetDataPack(size_t *psz, int32_t fast)
 uint32_t ABitmapLite::getBpp() const
     {
         /// TODO: format normalize
-        switch(f)
+        switch(bmpdata.f)
         {
-            /// 32 BPP
+            /// * 32 BPP
             case android::PIXEL_FORMAT_RGBA_8888:
             case android::PIXEL_FORMAT_RGBX_8888:
             case android::PIXEL_FORMAT_BGRA_8888:
-            case android::PIXEL_FORMAT_sRGB_A_8888:
-            case android::PIXEL_FORMAT_sRGB_X_8888:
+            /// > 5.1.1 duplicate PIXEL_FORMAT_RGBA_8888
+            //case android::PIXEL_FORMAT_sRGB_A_8888:
+            /// 5.1.1 AOSP
+            //case android::PIXEL_FORMAT_sRGB_X_8888:
                 return 32;
-            /// 24 BPP
+            /// * 24 BPP
             case android::PIXEL_FORMAT_RGB_888:
                 return 24;
-            /// 16 BPP
+            /// * 16 BPP
             case android::PIXEL_FORMAT_RGB_565:
             case android::PIXEL_FORMAT_RGBA_5551:
             case android::PIXEL_FORMAT_RGBA_4444:
@@ -217,7 +215,7 @@ uint32_t ABitmapLite::getBpp() const
         }
     }
 
-uint32_t ABitmapLite::getPad(uint32_t _w) const
+uint32_t ABitmapLite::getPadDst(uint32_t _w) const
     {
         uint32_t pad = 0U;
         while (((_w + pad) % 4) != 0)
@@ -225,52 +223,74 @@ uint32_t ABitmapLite::getPad(uint32_t _w) const
         return pad;
     }
 
+uint32_t ABitmapLite::getPadSrc() const
+    {
+        return ((bmpdata.s > bmpdata.w) ?
+                static_cast<uint32_t>((bmpdata.s - bmpdata.w) * bmpdata.b) :
+                0U
+            );
+    }
+
 bool ABitmapLite::convertBmp(bool sdlcompat)
     {
-        if (!src)
+        if (!bmpdata.src)
             return false;
 
 	    const uint32_t
-                 hd   = h,
+                 hd   = bmpdata.h,
                  wr   = ((rat) ? __extension__ (
-                                { uint32_t a = (w / rat); if (w % rat) a++; a; }) : w),
+                                { uint32_t a = (bmpdata.w / rat);
+                                  if (bmpdata.w % rat) a++; a; })
+                                : bmpdata.w),
                  hr   = ((rat) ? __extension__ (
-                                { uint32_t a = (h / rat); if (h % rat) a++; a; }) : h),
+                                { uint32_t a = (bmpdata.h / rat);
+                                  if (bmpdata.h % rat) a++; a; })
+                                : bmpdata.h),
                  ar   = ((rat) ? rat : 1U),
-                 wsz  = (w * b),
+                 ax   = (ar * bmpdata.b),
+                 br   =  bmpdata.b,
+                 wsz  = (bmpdata.w * bmpdata.b),
                  wdz  = (wr * 3U),
                  pfmt = getBpp(),
-                 dpad = getPad(wdz);
+                 spad = 0,//getPadSrc(),
+                 dpad = getPadDst(wdz);
+
 
         if (!pfmt)
             return false;
 
-        sz = ((wdz + dpad) * hr);
-        w  = ((rat) ? wr : w);
-        h  = ((rat) ? hr : h);
+        bmpdata.w  = ((rat) ? wr : bmpdata.w);
+        bmpdata.h  = ((rat) ? hr : bmpdata.h);
+        bmpdata.sz = ((wdz + dpad) * hr);
 
         if (!sdlcompat)
         {
             std::reverse(vsrc.begin(), vsrc.end());
-            src = &vsrc[0];
+            bmpdata.src = &vsrc[0];
         }
 
-        vdst.resize(sz + sizeof(ABitmapLite::BMPHEADER));
-        dst = &vdst[0];
+#       if defined(_DEBUG)
+        __LOG_PRINT("-> convertBmp -> point:           %ux%u", bmpdata.w, bmpdata.h);
+        __LOG_PRINT("-> convertBmp -> sdl/ratio/fmt/b: %d/%u/%u/%u", sdlcompat, rat, pfmt, bmpdata.b);
+        __LOG_PRINT("-> convertBmp -> wsz/wdz/pads:    %u/%u/%u/%u", wsz, wdz, spad, dpad);
+        __LOG_PRINT("-> convertBmp -> size:            %u", bmpdata.sz);
+#       endif
+
+        vdst.resize(bmpdata.sz + sizeof(ABitmapLite::BMPHEADER));
+        bmpdata.dst = &vdst[0];
         uint8_t *_dst = &vdst[sizeof(ABitmapLite::BMPHEADER)];
 	    uint32_t y;
 
-#       pragma omp parallel for private(y) schedule(dynamic)
+#       pragma omp parallel for private(y) schedule(static)
         for(y = 0U; y < hd; y += ar)
         {
-            uint32_t sx = 0U, ssz = (y * wsz),
-                     dx = 0U, dsz = (((y / ar) * wdz) + (dpad * y)),
-                     ax = (ar * b);
+            uint32_t sx = 0U, ssz = ((wsz + spad) * y),
+                     dx = 0U, dsz = ((y / ar) * (wdz + dpad));
 
-            std::vector<uint8_t> v(wsz);
+            std::vector<uint8_t> v(wsz + spad);
             v.assign(
-                &src[ssz],
-                &src[ssz + wsz]
+                &bmpdata.src[ssz],
+                &bmpdata.src[(ssz + wsz + spad)]
             );
             std::reverse(v.begin(), v.end());
 
@@ -297,7 +317,7 @@ bool ABitmapLite::convertBmp(bool sdlcompat)
                     case 24:
                     {
                         /// TODO: sdl2 format make
-                        memcpy(&_dst[(dsz + dx)], &v[sx], b);
+                        memcpy(&_dst[(dsz + dx)], &v[sx], br);
                         break;
                     }
                     case 32:
@@ -315,9 +335,20 @@ bool ABitmapLite::convertBmp(bool sdlcompat)
         if (rot)
             rotateBmp(rot);
 
+#       if defined(_DEBUG_RAW_FILE)
+        FILE *fp;
+        static const char *fnameraw = "/data/local/tmp/OutBmp.raw";
+        __LOG_PRINT("-> convertBmp -> write debug RAW file: %s", fnameraw);
+        if ((fp = fopen(fnameraw, "w")))
+        {
+            int sraw = fwrite(_dst, 1, bmpdata.sz, fp);
+            fclose(fp);
+            __LOG_PRINT("-> convertBmp -> wrote to file: %d/%u bytes.", sraw, bmpdata.sz);
+        }
+#       endif
+
         return true;
     }
-
 
 void ABitmapLite::rotateBmp(uint32_t angle)
     {
@@ -328,7 +359,7 @@ void ABitmapLite::rotateBmp(uint32_t angle)
             case 270:
             case 360: /// mirror mode
                 {
-                    if (!dst)
+                    if (!bmpdata.dst)
                         return;
                     break;
                 }
@@ -337,6 +368,7 @@ void ABitmapLite::rotateBmp(uint32_t angle)
         }
 
         uint32_t y, spad, dpad, ssz;
+        const uint32_t wr = bmpdata.w, hr = bmpdata.h;
 
         switch (angle)
         {
@@ -344,26 +376,26 @@ void ABitmapLite::rotateBmp(uint32_t angle)
             case 270:
             case 360:
                 {
-                    spad = getPad(w);
-                    dpad = getPad(h);
-                    ssz  = (((w * 3U) + dpad) * h);
+                    spad = getPadDst(wr);
+                    dpad = getPadDst(hr);
+                    ssz  = (((wr * 3U) + dpad) * hr);
                     break;
                 }
             default:
                 {
-                    spad = dpad = getPad(w);
-                    ssz  = sz;
+                    spad = dpad = getPadDst(wr);
+                    ssz  = bmpdata.sz;
                     break;
                 }
                 break;
         }
 
         std::vector<uint8_t> v(ssz + sizeof(ABitmapLite::BMPHEADER));
-        const uint8_t *p0 = &dst[sizeof(ABitmapLite::BMPHEADER)];
+        const uint8_t *p0 = &bmpdata.dst[sizeof(ABitmapLite::BMPHEADER)];
         uint8_t       *p1 = &v[sizeof(ABitmapLite::BMPHEADER)];
 
 #       pragma omp parallel for private(y) schedule(dynamic)
-        for (y = 0U; y < h; y++)
+        for (y = 0U; y < hr; y++)
         {
             uint32_t sx, dx;
 
@@ -371,26 +403,26 @@ void ABitmapLite::rotateBmp(uint32_t angle)
             {
                 case 90:
                     {
-                        dx = (h - y - 1) + (y * dpad);
-                        sx = ((y) ? ((w + spad) * y) : w);
+                        dx = (hr - y - 1) + (y * dpad);
+                        sx = ((y) ? ((wr + spad) * y) : wr);
                         break;
                     }
                 case 180:
                     {
-                        dx = ((w + dpad) * y);
-                        sx = ((h - y - 1) * (w + spad));
+                        dx = ((wr + dpad) * y);
+                        sx = ((hr - y - 1) * (wr + spad));
                         break;
                     }
                 case 270: // TODO:
                     {
                         dx = y + (y * dpad);
-                        sx = ((w + spad) * y);
+                        sx = ((wr + spad) * y);
                         break;
                     }
                 case 360:
                     {
                         dx = y + (y * dpad);
-                        sx = ((w + spad) * y);
+                        sx = ((wr + spad) * y);
                         break;
                     }
                 default:
@@ -399,7 +431,7 @@ void ABitmapLite::rotateBmp(uint32_t angle)
                     }
             }
 
-            for (uint32_t x = 0U; x < w; x++)
+            for (uint32_t x = 0U; x < wr; x++)
             {
                 uint32_t ssz, dsz;
 
@@ -408,19 +440,19 @@ void ABitmapLite::rotateBmp(uint32_t angle)
                     case 90:
                     case 360:
                         {
-                            dsz = (((h * x) + dx) * 3);
+                            dsz = (((hr * x) + dx) * 3);
                             ssz = ((sx + x) * 3);
                             break;
                         }
                     case 180:
                         {
                             dsz = ((dx + x) * 3);
-                            ssz = ((sx + (w - x - 1)) * 3);
+                            ssz = ((sx + (wr - x - 1)) * 3);
                             break;
                         }
                     case 270: // TODO:
                         {
-                            dsz = (((h * x) + dx) * 3);
+                            dsz = (((hr * x) + dx) * 3);
                             ssz = ((sx + x) * 3);
                             break;
                         }
@@ -438,7 +470,7 @@ void ABitmapLite::rotateBmp(uint32_t angle)
 
         vdst.clear();
         vdst.assign(v.begin(), v.end());
-        dst = &vdst[0];
+        bmpdata.dst = &vdst[0];
 
         switch (angle)
         {
@@ -446,8 +478,8 @@ void ABitmapLite::rotateBmp(uint32_t angle)
             case 270:
             case 360:
                 {
-                    if (w != h)
-                        std::swap(w, h);
+                    if (bmpdata.w != bmpdata.h)
+                        std::swap(bmpdata.w, bmpdata.h);
                     break;
                 }
             default:
@@ -457,26 +489,30 @@ void ABitmapLite::rotateBmp(uint32_t angle)
 
 bool ABitmapLite::headerBmp()
     {
+        if (!bmpdata.sz)
+            return false;
+
         ABitmapLite::BMPHEADER bmph{};
 
         bmph.fh.bfType = 0x4D42; // "BM"
-        bmph.fh.bfSize = sz + sizeof(bmph);
+        bmph.fh.bfSize = bmpdata.sz + sizeof(bmph);
         bmph.fh.bfOffBits = sizeof(bmph);
         bmph.ih.biSize = sizeof(bmph.ih);
-        bmph.ih.biWidth = static_cast<int32_t>(w);
-        bmph.ih.biHeight = static_cast<int32_t>(h);
+        bmph.ih.biWidth = static_cast<int32_t>(bmpdata.w);
+        bmph.ih.biHeight = static_cast<int32_t>(bmpdata.h);
         bmph.ih.biPlanes = 1U;
         bmph.ih.biBitCount = 24; //(b * 8);
         bmph.ih.biCompression = 0x0000; // BI_RGB
         bmph.ih.biSizeImage = 0;
 
-        if (!memcpy(&dst[0], &bmph, sizeof(bmph)))
+        if (!memcpy(&bmpdata.dst[0], &bmph, sizeof(bmph)))
             return false;
 
         ishead = true;
 
 #       if defined(_DEBUG)
-        __LOG_PRINT("-> bmph -> %u/%zu", bmph.fh.bfSize, sz);
+        __LOG_PRINT("-> bmph -> point: %ux%u", bmpdata.w, bmpdata.h);
+        __LOG_PRINT("-> bmph -> size:  %u/%zu", bmph.fh.bfSize, bmpdata.sz);
 #       endif
         return true;
     }

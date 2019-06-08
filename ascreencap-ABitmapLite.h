@@ -18,6 +18,14 @@ class ABitmapLite
 
         typedef struct __attribute__((__packed__))
         {
+            size_t   sz;
+            uint32_t w, h, s, b, f, bpp;
+            uint8_t *src;
+            uint8_t *dst;
+        } BITMAPINFODATA;
+
+        typedef struct __attribute__((__packed__))
+        {
             uint16_t  bfType;
             uint32_t  bfSize;
             uint32_t  bfReserved; // 1,2
@@ -45,14 +53,12 @@ class ABitmapLite
             ABitmapLite::BITMAPINFOHEADER ih;
         } BMPHEADER;
 
-        size_t  sz;
-        uint32_t w, h, s, b, f, rat, rot, bpp;
-        uint8_t *src;
-        uint8_t *dst;
         bool ishead, issdlcompat;
+        uint32_t rat, rot;
         std::vector<uint8_t> vsrc;
         std::vector<uint8_t> vdst;
         std::vector<uint8_t> vdstz;
+        BITMAPINFODATA bmpdata{};
 
     ABitmapLite();
     ABitmapLite(uint32_t, uint32_t, uint32_t, uint32_t, const void*, size_t);
@@ -64,14 +70,20 @@ class ABitmapLite
     void SetData(uint32_t, uint32_t, uint32_t, uint32_t, const void*, size_t);
     uint8_t * GetData(size_t*);
     uint8_t * GetDataPack(size_t*, int32_t);
+#   if defined(_DEBUG)
+    uint32_t getBpp() const;
+#   endif
 
     private:
 
     void rotateBmp(uint32_t);
     bool convertBmp(bool);
     bool headerBmp();
+    uint32_t getPadSrc() const;
+    uint32_t getPadDst(uint32_t) const;
+#   if !defined(_DEBUG)
     uint32_t getBpp() const;
-    uint32_t getPad(uint32_t) const;
+#   endif
 
 };
 

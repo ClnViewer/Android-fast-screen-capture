@@ -71,9 +71,10 @@ bool AScreenCap::saveFile(std::string const & fname, bool ispack, int32_t fast)
 
     if (fd > -1)
         close(fd);
-#       if defined(_DEBUG)
-        __LOG_PRINT("-> error: %s", fname.c_str());
-#       endif
+
+#   if defined(_DEBUG)
+    __LOG_PRINT("-> error: %s", fname.c_str());
+#   endif
     __ERROR_BOOL_SET;
 }
 
@@ -116,6 +117,26 @@ bool AScreenCap::getScreen()
 
         if (!_adata.TestData(true))
             __ERROR_BREAK_SET;
+
+#       if defined(_DEBUG)
+        __LOG_PRINT("-> getScreen -> point:  %ux%u", _sc.getWidth(), _sc.getHeight());
+        __LOG_PRINT("-> getScreen -> stride: %u", _sc.getStride());
+        __LOG_PRINT("-> getScreen -> format: %u/%u", _sc.getFormat(), _adata.getBpp());
+        __LOG_PRINT("-> getScreen -> size:   %u", _sc.getSize());
+#       endif
+
+#       if defined(_DEBUG_RAW_FILE)
+        FILE *fp;
+        static const char *fnameraw = "/data/local/tmp/OutBitmap.raw";
+        __LOG_PRINT("-> getScreen -> write debug RAW file: %s", fnameraw);
+        if ((fp = fopen(fnameraw, "w")))
+        {
+            int sraw = fwrite(_sc.getPixels(), 1, _sc.getSize(), fp);
+            fclose(fp);
+            __LOG_PRINT("-> getScreen -> wrote to file: %d bytes.", sraw);
+        }
+#       endif
+
     }
     while (0);
 

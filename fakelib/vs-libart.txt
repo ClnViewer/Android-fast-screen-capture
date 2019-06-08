@@ -1,0 +1,16 @@
+{
+global:
+  ClaimSignalChain;
+  UnclaimSignalChain;
+  InvokeUserSignalHandler;
+  InitializeSignalChain;
+  EnsureFrontOfChain;
+  SetSpecialSignalHandlerFn;
+  AddSpecialSignalHandlerFn;
+  RemoveSpecialSignalHandlerFn;
+  JNI_GetDefaultJavaVMInitArgs;
+  JNI_CreateJavaVM;
+  JNI_GetCreatedJavaVMs;
+local:
+  *;
+};
