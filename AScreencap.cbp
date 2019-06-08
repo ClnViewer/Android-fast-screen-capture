@@ -44,6 +44,7 @@
 			<Add option="-Wno-unknown-pragmas" />
 			<Add option="-fopenmp" />
 			<Add option="-fexceptions" />
+			<Add option="-Ifakelib/include" />
 			<Add option="-IC:/__BuildSource/__LIB__/android-aosp-header/android-5.1.1_r1/system/core/include" />
 			<Add option="-IC:/__BuildSource/__LIB__/android-aosp-header/android-5.1.1_r1/frameworks/base/include" />
 			<Add option="-IC:/__BuildSource/__LIB__/android-aosp-header/android-5.1.1_r1/frameworks/native/include" />
