@@ -85,7 +85,7 @@ void ABitmapLite::SetData(
     uint32_t _w, uint32_t _h, uint32_t _s, uint32_t _f, const void *_src, size_t _sz
     )
     {
-        bmpdata.w = _s; //_w
+        bmpdata.w = _w;
         bmpdata.h = _h;
         bmpdata.s = _s;
         bmpdata.f = _f;
@@ -252,7 +252,7 @@ bool ABitmapLite::convertBmp(bool sdlcompat)
                  wsz  = (bmpdata.w * bmpdata.b),
                  wdz  = (wr * 3U),
                  pfmt = getBpp(),
-                 spad = 0,//getPadSrc(),
+                 spad = getPadSrc(),
                  dpad = getPadDst(wdz);
 
 

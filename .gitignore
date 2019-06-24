@@ -5,7 +5,7 @@ obj/*
 *.save
 *.bmarks
 *.layout
-
+*.depend
 
 .svn
 # Prerequisites
