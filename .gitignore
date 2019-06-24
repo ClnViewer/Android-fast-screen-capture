@@ -1,5 +1,11 @@
 
 utils/*
+libs/*
+obj/*
+*.save
+*.bmarks
+*.layout
+
 
 .svn
 # Prerequisites
@@ -34,5 +40,5 @@ utils/*
 *.exe
 *.out
 *.app
-
 *.sh
+*.cmd
