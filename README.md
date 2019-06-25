@@ -93,9 +93,11 @@ Example run:
 
 Run:
 
-```
+```bash
 adb exec-out /data/local/tmp/ascreencap --stream --sdl --ratio 2 | my-capture-prog.executable
 ```
+
+Part of `my-capture-prog.executable`   
 
 ```C++
     std::vector<uint8_t> v('data from ascreencap size');
