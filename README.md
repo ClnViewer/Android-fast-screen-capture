@@ -100,7 +100,7 @@ adb exec-out /data/local/tmp/ascreencap --stream --sdl --ratio 2 | my-capture-pr
 Part of `my-capture-prog.executable`   
 
 ```C++
-    std::vector<uint8_t> v('data from ascreencap size');
+    std::vector<uint8_t> v('size data from ascreencap');
     v.assign('data from ascreencap');
     
     void *pix = nullptr;
