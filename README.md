@@ -58,7 +58,7 @@ Download binary for you device from [dist/](https://github.com/ClnViewer/Android
 Building details:
 
 > Application platform: `android-22`   
-> Android system library version compatible: `5.1.1 - 7.x.x`   
+> Android system AOSP library version compatible: `5.1.1 - 7.x.x`   
 > Android system version >= `9.x.x` __NOT SUPPORT__ (temporary).  
 > NDK build version: `r20-beta2`   
 
