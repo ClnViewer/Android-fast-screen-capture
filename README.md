@@ -91,6 +91,11 @@ Example run:
 
 ### Example using SDL2 output format
 
+Run:
+
+```
+adb exec-out /data/local/tmp/ascreencap --stream --sdl --ratio 2 | my-capture-prog.executable
+```
 
 ```C++
     std::vector<uint8_t> v('data from ascreencap size');
