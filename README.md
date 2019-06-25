@@ -88,6 +88,9 @@ Example run:
     std::vector<uint8_t> v('data from ascreencap size');
     v.assign('data from ascreencap');
     
+    void *pix = nullptr;
+    int32_t pitch = 0;
+    
     SDL_LockTexture(texture, nullptr, &pix, &pitch);
     if ((!pix) || (!pitch))
         return;
