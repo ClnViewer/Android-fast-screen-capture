@@ -109,3 +109,5 @@ Example run:
 
 ```
 
+See full ADB capture source: https://github.com/ClnViewer/ADB-Android-Viewer/blob/f61a59666fd888ba99c79537f0b4ae4c696eec13/src/ADBDriverDLL/src/DriverSocket/DriverSocketCapture.cpp#L7
+
