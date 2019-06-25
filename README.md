@@ -97,7 +97,7 @@ Run:
 adb exec-out /data/local/tmp/ascreencap --stream --sdl --ratio 2 | my-capture-prog.executable
 ```
 
-Part of `my-capture-prog.executable`   
+Part of code `my-capture-prog.executable`   
 
 ```C++
     std::vector<uint8_t> v('size data from ascreencap');
