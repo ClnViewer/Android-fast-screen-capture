@@ -104,6 +104,21 @@ Part of code `my-capture-prog.executable`
     uint32_t *id = 'data from ascreencap';
     if (*id != 0x315a4d42)
         return;
+
+    /// begin SDL2 Create Texture
+    uint32_t *width  = 'data from ascreencap' + (sizeof(uint32_t) * 3);
+    uint32_t *height = 'data from ascreencap' + (sizeof(uint32_t) * 4);
+
+    SDL_Texture *texture = SDL_CreateTexture(
+                renderer,
+                SDL_PIXELFORMAT_RGB24,
+                SDL_TEXTUREACCESS_STREAMING,
+                width,
+                height
+            );
+
+    /// ...
+
     /// get uncompressed size from header
     uint32_t *psize = 'data from ascreencap' + sizeof(uint32_t);
     /// offset data = first 160bit uint32[5] data header from ascreencap
