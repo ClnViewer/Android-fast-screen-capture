@@ -32,10 +32,10 @@
 
 Run time statistic, milliseconds:
 
-        5 ms. - load and initialization
-   40-151 ms. - capture screen - android::ScreenshotClient(), depends on the CPU device   
-       40 ms. - image conert, resize and rotate
-      196 ms. - total time
+            5 ms. - load and initialization
+       40-151 ms. - capture screen - android::ScreenshotClient(), depends on the CPU device   
+           40 ms. - image conert, resize and rotate
+          196 ms. - maximal total time
 
 
 ### Stream/Image compressed - header format using
