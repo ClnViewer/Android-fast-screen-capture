@@ -12,7 +12,7 @@
 - [Features](#features)
 - [Stream/Image compressed - header format using](#streamimage-compressed---header-format-using)
 - [Installing pre-build binary](#installing-pre-build)
-- [Using](#using)
+- [Using from command line](#using)
 - [Example using SDL2 output format](#example-using-sdl2-output-format)
 
 ----
