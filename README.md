@@ -105,8 +105,6 @@ Part of code `my-capture-prog.executable`
     uint32_t *psize = 'data from ascreencap' + sizeof(uint32_t);
     /// uncompress data from ascreencap, using lz4
     uint8_t *uncompressdata = ...lz4()
-    std::vector<uint8_t> v(*psize);
-    v.assign(uncompressdata + 160, uncompressdata + *psize);
     
     void *pix = nullptr;
     int32_t pitch = 0;
@@ -117,7 +115,7 @@ Part of code `my-capture-prog.executable`
 	
 	
     /// remove first 160bit uint32[5] data header from ascreencap
-    ::memcpy(pix, uncompressdata + 160, *psize);
+    ::memcpy(pix, uncompressdata + (sizeof(uint32_t) * 5), *psize);
 
     SDL_UnlockTexture(texture);
 
