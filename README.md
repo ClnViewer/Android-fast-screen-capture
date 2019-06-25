@@ -18,7 +18,7 @@
 - resize image by ratio: valid values `1-5`.
 - rotate image: `90,180,270`
 - mirror image.
-- SDL2 Texture output compatible mode: Landscape screen.
+- SDL2 [Texture](#example-using-sdl2-format) output compatible mode: Landscape screen.
 - save image to location specified (bmp format).
 - default save path: /data/local/tmp/AScreenCap.bmp
 
@@ -84,7 +84,7 @@ Example run:
 ### Example using SDL2 format
 
 
-```
+```C++
     std::vector<uint8_t> v('data from ascreencap size');
     v.assign('data from ascreencap');
     
