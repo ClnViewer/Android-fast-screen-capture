@@ -100,8 +100,9 @@ adb exec-out /data/local/tmp/ascreencap --stream --sdl --ratio 2 | my-capture-pr
 Part of code `my-capture-prog.executable`   
 
 ```C++
+    /// remove first 160bit uint32[5] data header from ascreencap
     std::vector<uint8_t> v('size data from ascreencap');
-    v.assign('data from ascreencap');
+    v.assign('data from ascreencap'.begin() + 160);
     
     void *pix = nullptr;
     int32_t pitch = 0;
