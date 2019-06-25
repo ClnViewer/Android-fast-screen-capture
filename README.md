@@ -9,6 +9,14 @@
 
 ----
 
+- [Features](#features)
+- [Stream/Image compressed - header format using](#streamimage-compressed---header-format-using)
+- [Installing pre-build binary](#installing-pre-build)
+- [Using](#using)
+- [Example using SDL2 output format](#example-using-sdl2-output-format)
+
+----
+
 ### Features
 
 - image output format: **raw bitmap** `24 bpp`, include header.
