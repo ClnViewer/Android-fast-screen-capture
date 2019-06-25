@@ -12,8 +12,8 @@
 ### Features
 
 - image output format: **raw bitmap** `24 bpp`, include header.
-- stream output format: **raw compressed bitmap** `lz4 stream` - `24 bpp`, include header + packet header.
-- stream is 5 - 20 fps, depends on the CPU device.  
+- video stream output format: **raw compressed bitmap** `lz4 stream` - `24 bpp`, include header + packet header.
+- video stream is 5 - 20 fps, depends on the CPU device.  
 - pack image by ratio: valid values `1-9` (`lz4`).
 - resize image by ratio: valid values `1-5`.
 - rotate image: `90,180,270`
@@ -50,9 +50,9 @@ Download binary for you device from [dist/](https://github.com/ClnViewer/Android
 Building details:
 
 > Application platform: `android-22`   
-> Android system library compatible: `5.1.1 - 7.x.x`   
+> Android system library version compatible: `5.1.1 - 7.x.x`   
+> Android system version >= `9.x.x` __NOT SUPPORT__ .  
 > NDK build version: `r20-beta2`   
-> NOT support Android version >= `9.x.x`   
 
 Using ADB to send binary to device: 
 
