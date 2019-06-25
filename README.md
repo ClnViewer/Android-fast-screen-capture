@@ -103,9 +103,9 @@ Part of code `my-capture-prog.executable`
     
     /// get uncompressed size from header
     uint32_t *psize = 'data from ascreencap' + sizeof(uint32_t);
-    /// uncompress data from ascreencap, using lz4
     /// offset data = first 160bit uint32[5] data header from ascreencap
-    uint32_t offset = (sizeof(uint32_t) * 5);
+    uint32_t offset = sizeof(uint32_t) * 5;
+    /// uncompress data from ascreencap, using lz4
     uint8_t *uncompressdata = ...lz4('data from ascreencap' + offset)
     
     void *pix = nullptr;
