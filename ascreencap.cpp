@@ -6,6 +6,9 @@
 #include "extern/argh.h"
 #include <binder/ProcessState.h>
 #include <binder/IPCThreadState.h>
+
+
+/*
 #include <signal.h>
 
 static struct sigaction sigThis{};
@@ -28,6 +31,7 @@ static bool setSignal()
         (::sigprocmask(SIG_BLOCK, &sigThis.sa_mask, NULL) == 0)
         );
 }
+*/
 
 int main(int argc, char **argv)
 {
@@ -39,11 +43,13 @@ int main(int argc, char **argv)
     android::sp<android::ProcessState> proc(android::ProcessState::self());
     android::ProcessState::self()->startThreadPool();
 
+    /*
     if (!setSignal())
     {
         __LOG_PRINT("Signal not set: [%s]", strerror(errno));
         return 120;
     }
+    */
 
     ACapture::AScreenConf cnf(argc, argv);
     ACapture::AScreenCap sc;

@@ -93,14 +93,17 @@ Example run:
 
 Run:
 
-```sh
+```shell
 adb exec-out /data/local/tmp/ascreencap --stream --sdl --ratio 2 | my-capture-prog.executable
 ```
 
 Part of code `my-capture-prog.executable`   
 
 ```C++
-    
+    /// check data header valid
+    uint32_t *id = 'data from ascreencap';
+    if (*id != 0x315a4d42)
+        return;
     /// get uncompressed size from header
     uint32_t *psize = 'data from ascreencap' + sizeof(uint32_t);
     /// offset data = first 160bit uint32[5] data header from ascreencap
