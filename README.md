@@ -18,7 +18,7 @@
 - resize image by ratio: valid values `1-5`.
 - rotate image: `90,180,270`
 - mirror image.
-- SDL2 [Texture](#example-using-sdl2-format) output compatible mode: Landscape screen.
+- SDL2 [Texture](#example-using-sdl2-output-format) output compatible mode: Landscape screen.
 - save image to location specified (bmp format).
 - default save path: /data/local/tmp/AScreenCap.bmp
 
@@ -81,7 +81,7 @@ Example run:
        adb exec-out /data/local/tmp/ascreencap --stream
        
 
-### Example using SDL2 format
+### Example using SDL2 output format
 
 
 ```C++
