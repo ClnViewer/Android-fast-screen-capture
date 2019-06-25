@@ -80,3 +80,21 @@ Example run:
        adb exec-out /data/local/tmp/ascreencap --rotate 360 // << mirror image :)
        adb exec-out /data/local/tmp/ascreencap --stream
        
+
+### Example using SDL2 format
+
+
+```
+    std::vector<uint8_t> v('data from ascreencap size');
+    v.assign('data from ascreencap');
+    
+    SDL_LockTexture(texture, nullptr, &pix, &pitch);
+    if ((!pix) || (!pitch))
+        return;
+
+    ::memcpy(pix, &v[0], v.size());
+
+    SDL_UnlockTexture(texture);
+
+```
+
