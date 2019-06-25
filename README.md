@@ -93,7 +93,7 @@ Example run:
 
 Run:
 
-```bash
+```sh
 adb exec-out /data/local/tmp/ascreencap --stream --sdl --ratio 2 | my-capture-prog.executable
 ```
 
