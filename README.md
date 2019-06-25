@@ -100,9 +100,13 @@ adb exec-out /data/local/tmp/ascreencap --stream --sdl --ratio 2 | my-capture-pr
 Part of code `my-capture-prog.executable`   
 
 ```C++
-    /// remove first 160bit uint32[5] data header from ascreencap
-    std::vector<uint8_t> v('size data from ascreencap');
-    v.assign('data from ascreencap'.begin() + 160);
+    
+    /// get uncompressed size from header
+    uint32_t *psize = 'data from ascreencap' + sizeof(uint32_t);
+    /// uncompress data from ascreencap, using lz4
+    uint8_t *uncompressdata = ...lz4()
+    std::vector<uint8_t> v(*psize);
+    v.assign(uncompressdata + 160, uncompressdata + *psize);
     
     void *pix = nullptr;
     int32_t pitch = 0;
@@ -110,8 +114,10 @@ Part of code `my-capture-prog.executable`
     SDL_LockTexture(texture, nullptr, &pix, &pitch);
     if ((!pix) || (!pitch))
         return;
-
-    ::memcpy(pix, &v[0], v.size());
+	
+	
+    /// remove first 160bit uint32[5] data header from ascreencap
+    ::memcpy(pix, uncompressdata + 160, *psize);
 
     SDL_UnlockTexture(texture);
 
