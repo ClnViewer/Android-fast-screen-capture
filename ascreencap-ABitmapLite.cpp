@@ -270,10 +270,11 @@ bool ABitmapLite::convertBmp(bool sdlcompat)
         }
 
 #       if defined(_DEBUG)
-        __LOG_PRINT("-> convertBmp -> point:           %ux%u", bmpdata.w, bmpdata.h);
-        __LOG_PRINT("-> convertBmp -> sdl/ratio/fmt/b: %d/%u/%u/%u", sdlcompat, rat, pfmt, bmpdata.b);
-        __LOG_PRINT("-> convertBmp -> wsz/wdz/pads:    %u/%u/%u/%u", wsz, wdz, spad, dpad);
-        __LOG_PRINT("-> convertBmp -> size:            %u", bmpdata.sz);
+        __LOG_PRINT("-> convertBmp -> point:            %ux%u", bmpdata.w, bmpdata.h);
+        __LOG_PRINT("-> convertBmp -> sdl/ratio/rotate: %d/%u/%u", sdlcompat, rat, rot);
+        __LOG_PRINT("-> convertBmp -> format/bpp:       %u/%u", pfmt, bmpdata.b);
+        __LOG_PRINT("-> convertBmp -> wsz/wdz/pads:     %u/%u/%u/%u", wsz, wdz, spad, dpad);
+        __LOG_PRINT("-> convertBmp -> size:             %u", bmpdata.sz);
 #       endif
 
         vdst.resize(bmpdata.sz + sizeof(ABitmapLite::BMPHEADER));

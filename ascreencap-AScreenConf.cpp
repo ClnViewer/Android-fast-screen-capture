@@ -95,7 +95,7 @@ void AScreenConf::printHelp()
 AScreenConf::AScreenConf(int32_t argc, char **argv)
     : _err(0),
       IsCapStream(false), IsCapFile(false), IsCapStdOut(false),
-      IsCapRatio(false), IsCapRotate(false), IsCapPack(false), IsNoHeader(false), IsHelp(false),
+      IsCapRatio(false), IsCapRotate(false), IsCapPack(false), IsSDL2Compatible(false), IsHelp(false),
       Ratio(0U), Rotate(0U), FastPack(0U)
 {
     argh::parser lcmd({
@@ -115,7 +115,7 @@ AScreenConf::AScreenConf(int32_t argc, char **argv)
     std::string srotate;
     std::string spack;
 
-    IsNoHeader  = (lcmd[{ __CONF_CAPSDL }]);
+    IsSDL2Compatible = (lcmd[{ __CONF_CAPSDL }]);
     IsHelp      = (lcmd[{ __CONF_CAPHELP }]);
     IsCapStdOut = (lcmd[{ __CONF_CAPSTDOUT }]);
     IsCapStream = (lcmd[{ __CONF_CAPSTREAM }]);
@@ -158,26 +158,26 @@ AScreenConf::AScreenConf(int32_t argc, char **argv)
             IsCapRatio = false;
     }
 
-    if (IsNoHeader)
-        Rotate = 360U;
-    else
-        if ((IsCapRotate) && (srotate.length()))
+    if ((IsCapRotate) && (srotate.length()))
+    {
+        switch ((Rotate = strToUint(srotate)))
         {
-            switch ((Rotate = strToUint(srotate)))
+            case 90:
+            case 180:
+            case 270:
+            case 360: /// mirror mode or SDL2 mode
+                break;
+            default:
             {
-                case 90:
-                case 180:
-                case 270:
-                case 360: /// mirror mode
-                    break;
-                default:
-                {
-                    IsCapRotate =  false;
-                    Rotate = 0U;
-                    break;
-                }
+                IsCapRotate =  false;
+                Rotate = 0U;
+                break;
             }
         }
+    }
+
+    if ((IsSDL2Compatible) && (!IsCapRotate))
+        Rotate = 360U;
 
     if ((IsCapPack) && (spack.length()))
     {
@@ -200,7 +200,7 @@ AScreenConf::AScreenConf(int32_t argc, char **argv)
                 "\tIsCapPack:\t[%d]\n",
         FileName.c_str(),
         Ratio, Rotate, FastPack,
-        IsNoHeader, IsCapStdOut, IsCapStream, IsCapFile, IsCapRatio, IsCapRotate, IsCapPack
+        IsSDL2Compatible, IsCapStdOut, IsCapStream, IsCapFile, IsCapRatio, IsCapRotate, IsCapPack
     );
 #   endif
 

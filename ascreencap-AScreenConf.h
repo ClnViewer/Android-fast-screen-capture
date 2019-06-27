@@ -15,7 +15,7 @@ class AScreenConf
         bool IsCapRatio;
         bool IsCapRotate;
         bool IsCapPack;
-        bool IsNoHeader;
+        bool IsSDL2Compatible;
         bool IsHelp;
         uint32_t Ratio;
         uint32_t Rotate;
