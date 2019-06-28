@@ -113,8 +113,8 @@ Part of code `my-capture-prog.executable`
                 renderer,
                 SDL_PIXELFORMAT_RGB24,
                 SDL_TEXTUREACCESS_STREAMING,
-                width,
-                height
+                *width,
+                *height
             );
 
     /// ...
