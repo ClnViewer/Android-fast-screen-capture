@@ -13,8 +13,6 @@
 				<Option type="1" />
 				<Option compiler="android_ndk-build" />
 				<Option parameters="--ratio 2 --rotate 360 -f OutBmp.bmp" />
-				<Compiler>
-				</Compiler>
 				<ExtraCommands>
 					<Add after="Cmd.exe /C android-elf-cleaner.exe libs\armeabi-v7a\ascreencap" />
 				</ExtraCommands>
@@ -57,6 +55,7 @@
 			<Add option="-L./fakelib/libs/$(TARGET_ARCH_ABI)" />
 			<Add option="-lutils" />
 			<Add option="-lgui" />
+			<Add option="-lui" />
 			<Add option="-lbinder" />
 			<Add option="-lomp" />
 			<Add option="-Wl,--gc-sections" />

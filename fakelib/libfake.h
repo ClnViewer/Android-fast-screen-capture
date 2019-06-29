@@ -3,6 +3,8 @@
 #error "__ANDROID__ build only !"
 #endif
 
+#include <string>
+
 #include <unistd.h>
 #include <sys/types.h>
 #include <stdio.h>
