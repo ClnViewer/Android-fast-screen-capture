@@ -14,6 +14,7 @@ class DisplayInfo;
 //class String8;
 //class Vector;
 
+/// declaration -> libinder ?
 class Rect
 {
 public:
@@ -28,6 +29,7 @@ public:
     ~Rect();
 };
 
+/// declaration -> libui
 class GraphicBuffer
 {
 public:
@@ -53,6 +55,7 @@ private:
 };
 
 
+/// realisation
 class SurfaceComposerClient
 {
 public:
@@ -163,6 +166,7 @@ int32_t    SurfaceComposerClient::clearLayerFrameStats(const sp<IBinder>& token)
 int32_t    SurfaceComposerClient::getLayerFrameStats(const sp<IBinder>& token, void* outStats) const { return 0; }
 
 
+/// realisation
 class ScreenshotClient
 {
     /*
@@ -176,10 +180,15 @@ public:
     ScreenshotClient();
     ~ScreenshotClient();
 
+    /// < 4.0
+    int32_t update ();
+    /// 4.0 - 6.0 work
     int32_t update (const sp<IBinder>&, Rect, bool);
+    /// 
     int32_t update (const sp<IBinder>&, Rect, uint32_t, uint32_t, bool);
     int32_t update (const sp<IBinder>&, Rect, uint32_t, uint32_t, uint32_t, uint32_t, bool);
-    int32_t update (const sp<IBinder>&, Rect, uint32_t, uint32_t, uint32_t, uint32_t, bool, uint32_t);  /// 6.0 - 8.1.0
+    /// 6.0 - 8.1.0 work
+    int32_t update (const sp<IBinder>&, Rect, uint32_t, uint32_t, uint32_t, uint32_t, bool, uint32_t);
     /// 6.0
     static int32_t capture(const sp<IBinder>&, const sp<IGraphicBufferProducer>&, Rect, uint32_t, uint32_t, uint32_t, uint32_t, bool);
     /// 9.0
@@ -211,8 +220,11 @@ public:
     int32_t     getFormat() const;
     size_t      getSize() const;
     void        release();
+    /// 6.0 - 8.0
+    int32_t     getDataSpace();
 };
 
+int32_t ScreenshotClient::update() { LOG("ScreenshotClient::update(%d)\n", __LINE__); return 1; }
 int32_t ScreenshotClient::update(const sp<IBinder>& display,
             Rect sourceCrop, bool useIdentityTransform) { LOG("ScreenshotClient::update(%d)\n", __LINE__); return 1; }
 int32_t ScreenshotClient::update(const sp<IBinder>& display,
@@ -262,9 +274,14 @@ size_t ScreenshotClient::getSize() const {
     LOG("ScreenshotClient::getSize()\n");
     return 0;
 }
+int32_t ScreenshotClient::getDataSpace() {  /// >= 6.0
+    LOG("ScreenshotClient::getSize()\n");
+    return 0;
+}
 void ScreenshotClient::release() {
     LOG("ScreenshotClient::release()\n");
 }
+
 
 };
 
