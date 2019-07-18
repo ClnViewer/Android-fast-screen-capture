@@ -47,7 +47,9 @@ clean:
 
 adbsetup:
 	@echo '==== ADB SETUP: [ $(PLATFORM) ] ===='
+ifeq ($(shell expr $(APP_BUILD_VERSION) \< 8), 1)
 	@Cmd.exe /C android-elf-cleaner.exe $(PROJECT)libs\$(PLATFORM)\$(LOCAL_MODULE)
+endif
 	@Cmd.exe /C adb.exe push $(PROJECT)libs\$(PLATFORM)\$(LOCAL_MODULE) /data/local/tmp/$(LOCAL_MODULE)
 	@Cmd.exe /C adb.exe shell /system/bin/chmod 0777 /data/local/tmp/$(LOCAL_MODULE)
 

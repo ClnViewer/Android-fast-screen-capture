@@ -186,13 +186,13 @@ public:
     int32_t update (const sp<IBinder>&, Rect, bool);
     /// 
     int32_t update (const sp<IBinder>&, Rect, uint32_t, uint32_t, bool);
-    int32_t update (const sp<IBinder>&, Rect, uint32_t, uint32_t, uint32_t, uint32_t, bool);
+    int32_t update (const sp<IBinder>&, Rect, uint32_t, uint32_t, int32_t, int32_t, bool);
     /// 6.0 - 8.1.0 work
-    int32_t update (const sp<IBinder>&, Rect, uint32_t, uint32_t, uint32_t, uint32_t, bool, uint32_t);
+    int32_t update (const sp<IBinder>&, Rect, uint32_t, uint32_t, int32_t, int32_t, bool, uint32_t);
     /// 6.0
-    static int32_t capture(const sp<IBinder>&, const sp<IGraphicBufferProducer>&, Rect, uint32_t, uint32_t, uint32_t, uint32_t, bool);
+    static int32_t capture(const sp<IBinder>&, const sp<IGraphicBufferProducer>&, Rect, uint32_t, uint32_t, int32_t, int32_t, bool);
     /// 9.0
-    static int32_t capture(const sp<IBinder>&, Rect, uint32_t, uint32_t, uint32_t, uint32_t, bool, uint32_t, sp<GraphicBuffer>*);
+    static int32_t capture(const sp<IBinder>&, Rect, uint32_t, uint32_t, int32_t, int32_t, bool, uint32_t, sp<GraphicBuffer>*);
 
     /*  Call param: 6.0
 	update (const sp<IBinder>&, Rect, 0, 0, 0, -1U, false, 0|1|2|3);
@@ -232,17 +232,21 @@ int32_t ScreenshotClient::update(const sp<IBinder>& display,
             bool useIdentityTransform) { LOG("ScreenshotClient::update(%d)\n", __LINE__); return 1; }
 int32_t ScreenshotClient::update(const sp<IBinder>& display,
             Rect sourceCrop, uint32_t reqWidth, uint32_t reqHeight,
-            uint32_t minLayerZ, uint32_t maxLayerZ,
+            int32_t minLayerZ, int32_t maxLayerZ,
             bool useIdentityTransform) { LOG("ScreenshotClient::update(%d)\n", __LINE__); return 1; }
 int32_t ScreenshotClient::update(const sp<IBinder>& display,
             Rect sourceCrop, uint32_t reqWidth, uint32_t reqHeight,
-            uint32_t minLayerZ, uint32_t maxLayerZ,
+            int32_t minLayerZ, int32_t maxLayerZ,
             bool useIdentityTransform, uint32_t rotation) { LOG("ScreenshotClient::update(%d)\n", __LINE__); return 1; }
 int32_t ScreenshotClient::capture(const sp<IBinder>& display,
             Rect sourceCrop, uint32_t reqWidth, uint32_t reqHeight,
-            uint32_t minLayerZ, uint32_t maxLayerZ,
+            int32_t minLayerZ, int32_t maxLayerZ,
             bool useIdentityTransform, uint32_t rotation,
             sp<GraphicBuffer>* gb) { LOG("ScreenshotClient::capture(%d)\n", __LINE__); return 1; }
+int32_t ScreenshotClient::capture(const sp<IBinder>& display, const sp<IGraphicBufferProducer>& igbp,
+            Rect sourceCrop, uint32_t reqWidth, uint32_t reqHeight,
+            int32_t minLayerZ, int32_t maxLayerZ,
+            bool useIdentityTransform) { LOG("ScreenshotClient::capture(%d)\n", __LINE__); return 1; }
 
 ScreenshotClient::ScreenshotClient() {
     LOG("ScreenshotClient::ScreenshotClient()\n");

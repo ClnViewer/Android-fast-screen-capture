@@ -189,7 +189,10 @@ void AScreenCap::getStream(int32_t fast)
 bool AScreenCap::sysCap()
 {
     _sc.release();
-#   if (__ANDROID_API__ >= 21)
+#   if (__ANDROID_VER__ == 9)
+#   elif (__ANDROID_VER__ == 8)
+    if (_sc.update(_dsp, android::Rect(0, 0), 0, 0, INT32_MIN, INT32_MAX, false, 0) != android::NO_ERROR)
+#   elif ((__ANDROID_VER__ <= 7) && (__ANDROID_VER__ >= 5))
     if (_sc.update(_dsp, android::Rect(0, 0), false) != android::NO_ERROR)
 #   elif (__ANDROID_API__ >= 17)
     if (_sc.update(_dsp) != android::NO_ERROR)

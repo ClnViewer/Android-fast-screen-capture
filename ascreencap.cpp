@@ -40,8 +40,14 @@ int main(int argc, char **argv)
     auto _t1 = HClockNow();
 #   endif
 
+#   if (__ANDROID_VER__ >= 8)
+    android::ProcessState::self()->setThreadPoolMaxThreadCount(0);
+    android::ProcessState::self()->startThreadPool();
+#   elif ((__ANDROID_VER__ <= 7) && (__ANDROID_VER__ >= 5))
     android::sp<android::ProcessState> proc(android::ProcessState::self());
     android::ProcessState::self()->startThreadPool();
+#   else
+#   endif
 
     /*
     if (!setSignal())

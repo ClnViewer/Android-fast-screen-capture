@@ -5,7 +5,6 @@
 #include <string>
 #include <thread>
 
-
 #if defined(_DEBUG)
 #   include <chrono>
     typedef std::chrono::high_resolution_clock::time_point TimeWatch;
@@ -16,10 +15,14 @@
 #include <binder/IBinder.h>
 #include <gui/ISurfaceComposer.h>
 #include <gui/SurfaceComposerClient.h>
-#include <unistd.h>
-#include <fcntl.h>
+
+#include <stdint.h>
+#include <sys/types.h>
+#include <system/graphics.h>
 #include <stdio.h>
 #include <errno.h>
+#include <unistd.h>
+#include <fcntl.h>
 
 #if defined(_DEBUG)
 #   define __LOG_PRINT(A, ...) \

@@ -2,7 +2,7 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="AScreencap" />
+		<Option title="ascreencap" />
 		<Option makefile_is_custom="1" />
 		<Option pch_mode="2" />
 		<Option compiler="android_ndk-build" />
@@ -13,9 +13,6 @@
 				<Option type="1" />
 				<Option compiler="android_ndk-build" />
 				<Option parameters="--ratio 2 --rotate 360 -f OutBmp.bmp" />
-				<ExtraCommands>
-					<Add after="Cmd.exe /C android-elf-cleaner.exe libs\armeabi-v7a\ascreencap" />
-				</ExtraCommands>
 				<Environment>
 					<Variable name="ANALIZE" value="1" />
 					<Variable name="ELFCLEANER" value="1" />
@@ -29,9 +26,6 @@
 				<Compiler>
 					<Add option="-D_DEBUG=1" />
 				</Compiler>
-				<ExtraCommands>
-					<Add after="Cmd.exe /C android-elf-cleaner.exe libs\armeabi-v7a\ascreencap" />
-				</ExtraCommands>
 				<Environment>
 					<Variable name="ANALIZE" value="1" />
 					<Variable name="ELFCLEANER" value="1" />
@@ -45,11 +39,12 @@
 			<Add option="-fopenmp" />
 			<Add option="-fexceptions" />
 			<Add option="-Ifakelib/include" />
-			<Add option="-IC:/__BuildSource/__LIB__/android-aosp-header/android-5.1.1_r1/system/core/include" />
-			<Add option="-IC:/__BuildSource/__LIB__/android-aosp-header/android-5.1.1_r1/frameworks/base/include" />
-			<Add option="-IC:/__BuildSource/__LIB__/android-aosp-header/android-5.1.1_r1/frameworks/native/include" />
-			<Add option="-IC:/__BuildSource/__LIB__/android-aosp-header/android-5.1.1_r1/hardware/libhardware/include" />
+			<Add option="-IC:/__BuildSource/__LIB__/android-aosp-header/android-6.0.0_r1/system/core/include" />
+			<Add option="-IC:/__BuildSource/__LIB__/android-aosp-header/android-6.0.0_r1/frameworks/base/include" />
+			<Add option="-IC:/__BuildSource/__LIB__/android-aosp-header/android-6.0.0_r1/frameworks/native/include" />
+			<Add option="-IC:/__BuildSource/__LIB__/android-aosp-header/android-6.0.0_r1/hardware/libhardware/include" />
 			<Add option="-IC:/__BuildSource/__LIB__/android-aosp-header/other/Skia" />
+			<Add option="-D__ANDROID_VER__=$(APP_BUILD_VERSION)" />
 		</Compiler>
 		<Linker>
 			<Add option="-L./fakelib/libs/$(TARGET_ARCH_ABI)" />

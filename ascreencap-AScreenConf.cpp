@@ -86,6 +86,17 @@ void AScreenConf::printHelp()
     fprintf(stdout, "\n\tAndroid Screen Capture - v.%s, rev:%s, build: %s.%s.%s\n",
             ACAP_FULLVERSION_STRING, ACAP_SVN_REVISION, ACAP_DATE, ACAP_MONTH, ACAP_YEAR
             );
+
+#   if ((__ANDROID_VER__ == 9) || (__ANDROID_VER__ == 8))
+    fprintf(stdout, "\tBuild to Android version v.%d - API %d\n",__ANDROID_VER__, __ANDROID_API__);
+#   elif ((__ANDROID_VER__ <= 7) && (__ANDROID_VER__ >= 5))
+    fprintf(stdout, "\tBuild to Android version v.5, v.6, v.7 - API %d\n", __ANDROID_API__);
+#   elif (__ANDROID_API__ >= 17)
+    fprintf(stdout, "\tBuild to Android version >= v.4 - API %d\n", __ANDROID_API__);
+#   else
+    fprintf(stdout, "\tBuild to unknown Android version, broken..\n");
+#   endif
+
     fprintf(stdout, "\tascreencap - replaced version of default screencap utility\n");
     fprintf(stdout, "\tgit: https://github.com/ClnViewer/Android-fast-screen-capture.git\n\n\n");
     for (uint32_t i = 0U; i < __NELE(helps); i++)
