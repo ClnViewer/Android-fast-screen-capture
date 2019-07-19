@@ -5,16 +5,15 @@
 #include <string>
 #include <thread>
 
+/// Debug only:
+/// #include <iostream>
+
 #if defined(_DEBUG)
 #   include <chrono>
     typedef std::chrono::high_resolution_clock::time_point TimeWatch;
 #   define HClockNow() std::chrono::high_resolution_clock::now()
 #   define HClockDiff(A,B) std::chrono::duration_cast<std::chrono::milliseconds>(A - B).count()
 #endif
-
-#include <binder/IBinder.h>
-#include <gui/ISurfaceComposer.h>
-#include <gui/SurfaceComposerClient.h>
 
 #include <stdint.h>
 #include <sys/types.h>
@@ -23,6 +22,11 @@
 #include <errno.h>
 #include <unistd.h>
 #include <fcntl.h>
+
+#include <binder/IBinder.h>
+#include <gui/ISurfaceComposer.h>
+#include <gui/SurfaceComposerClient.h>
+#include <ui/PixelFormat.h>
 
 #if defined(_DEBUG)
 #   define __LOG_PRINT(A, ...) \

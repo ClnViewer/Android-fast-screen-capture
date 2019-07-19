@@ -39,6 +39,7 @@ public:
     uint32_t getLayerCount() const;
     Rect     getBounds() const;
     uint64_t getId() const;
+    int32_t  initCheck() const;
 
 private:
     ~GraphicBuffer();
@@ -59,6 +60,11 @@ int32_t  GraphicBuffer::getPixelFormat() const     { LOG("GraphicBuffer::x()\n")
 uint32_t GraphicBuffer::getLayerCount() const      { LOG("GraphicBuffer::x()\n"); return 0U; }
 Rect     GraphicBuffer::getBounds() const          { LOG("GraphicBuffer::x()\n"); return Rect(0, 0); }
 uint64_t GraphicBuffer::getId() const              { LOG("GraphicBuffer::x()\n"); return 0LLU; }
+int32_t  GraphicBuffer::initCheck() const          { LOG("GraphicBuffer::x()\n"); return 0; }
+
+/// include /platform/frameworks/native/libs/ui/include/ui/PixelFormat.h
+uint32_t bytesPerPixel(int32_t format) { LOG("bytesPerPixel()\n"); return 0U; }
+uint32_t bitsPerPixel(int32_t format)  { LOG("bitsPerPixel()\n"); return 0U; }
 
 };
 

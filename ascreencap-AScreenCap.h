@@ -7,7 +7,11 @@ class AScreenCap
 {
     private:
         ACapture::ABitmapLite _adata;
+#       if (__ANDROID_VER__ >= 9)
+        android::sp<android::GraphicBuffer> _sc;
+#       else
         android::ScreenshotClient _sc;
+#       endif
         android::sp<android::IBinder> _dsp;
         std::atomic<int32_t> _err;
         std::atomic<bool> _ready;

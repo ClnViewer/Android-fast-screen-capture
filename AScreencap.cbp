@@ -38,6 +38,7 @@
 			<Add option="-Wno-unknown-pragmas" />
 			<Add option="-fopenmp" />
 			<Add option="-fexceptions" />
+			<Add option="-D_DEBUG=1" />
 			<Add option="-Ifakelib/include" />
 			<Add option="-IC:/__BuildSource/__LIB__/android-aosp-header/android-6.0.0_r1/system/core/include" />
 			<Add option="-IC:/__BuildSource/__LIB__/android-aosp-header/android-6.0.0_r1/frameworks/base/include" />
@@ -47,7 +48,7 @@
 			<Add option="-D__ANDROID_VER__=$(APP_BUILD_VERSION)" />
 		</Compiler>
 		<Linker>
-			<Add option="-L./fakelib/libs/$(TARGET_ARCH_ABI)" />
+			<Add option="-L./fakelib/libs/$(APP_BUILD_VERSION)/$(TARGET_ARCH_ABI)" />
 			<Add option="-lutils" />
 			<Add option="-lgui" />
 			<Add option="-lui" />

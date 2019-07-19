@@ -51,14 +51,16 @@ Packet stream include no pack header, size 160bit  `uint32[5]`, after image comp
 
 Download binary for you device from [dist/](https://github.com/ClnViewer/Android-fast-screen-capture/blob/master/dist/) directory: 
 
-| ---- | ---- | ---- | ---- | ---- |  
+
+| --- | --- | --- | --- | --- |  
 | Android 5.x - 7.x | [armeabi-v7a](https://github.com/ClnViewer/Android-fast-screen-capture/blob/master/dist/5/armeabi-v7a) | [arm64-v8a](https://github.com/ClnViewer/Android-fast-screen-capture/blob/master/dist/5/arm64-v8a) | [x86](https://github.com/ClnViewer/Android-fast-screen-capture/blob/master/dist/5/x86) | [x86_64](https://github.com/ClnViewer/Android-fast-screen-capture/blob/master/dist/5/x86_64) |  
 | Android 8.x | [armeabi-v7a](https://github.com/ClnViewer/Android-fast-screen-capture/blob/master/dist/8/armeabi-v7a) | [arm64-v8a](https://github.com/ClnViewer/Android-fast-screen-capture/blob/master/dist/8/arm64-v8a) | [x86](https://github.com/ClnViewer/Android-fast-screen-capture/blob/master/dist/8/x86) | [x86_64](https://github.com/ClnViewer/Android-fast-screen-capture/blob/master/dist/8/x86_64) |  
 | Android 9.x | [armeabi-v7a](https://github.com/ClnViewer/Android-fast-screen-capture/blob/master/dist/9/armeabi-v7a) | [arm64-v8a](https://github.com/ClnViewer/Android-fast-screen-capture/blob/master/dist/9/arm64-v8a) | [x86](https://github.com/ClnViewer/Android-fast-screen-capture/blob/master/dist/9/x86) | [x86_64](https://github.com/ClnViewer/Android-fast-screen-capture/blob/master/dist/9/x86_64) |  
 
+
 Building details:
 
-#### Android 5.x - 6.x
+#### Android 5.x - 7.x
 > Application platform: `android-21`   
 > Android system AOSP library version compatible: `5.1.1 - 7.x.x`   
 > NDK build version: `r20-beta2`   
@@ -68,7 +70,7 @@ Building details:
 > Android system AOSP library version compatible: `8.0.0 - 8.1.x`   
 > NDK build version: `r20-beta2`   
 
-#### Android 8.x
+#### Android 9.x
 > Application platform: `android-28`   
 > Android system AOSP library version compatible: `9.0.0 - 9.1.x`   
 > NDK build version: `r20-beta2`   

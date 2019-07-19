@@ -39,12 +39,6 @@
 namespace ACapture
 {
 
-/*
-struct _RGB {
-    uint8_t r_, g_, b_, a_;
-};
-*/
-
 ABitmapLite::ABitmapLite()
         : ishead(false), issdlcompat(false), rat(0U), rot(0U) {}
 
@@ -89,6 +83,9 @@ void ABitmapLite::SetData(
         bmpdata.h = _h;
         bmpdata.s = _s;
         bmpdata.f = _f;
+#       if (__ANDROID_VER__ >= 9)
+        _sz = (_s * _h * android::bytesPerPixel(_f));
+#       endif
         bmpdata.sz = _sz;
 
         if (TestData(false))
@@ -274,7 +271,7 @@ bool ABitmapLite::convertBmp(bool sdlcompat)
         __LOG_PRINT("-> convertBmp -> sdl/ratio/rotate: %d/%u/%u", sdlcompat, rat, rot);
         __LOG_PRINT("-> convertBmp -> format/bpp:       %u/%u", pfmt, bmpdata.b);
         __LOG_PRINT("-> convertBmp -> wsz/wdz/pads:     %u/%u/%u/%u", wsz, wdz, spad, dpad);
-        __LOG_PRINT("-> convertBmp -> size:             %u", bmpdata.sz);
+        __LOG_PRINT("-> convertBmp -> size:             %zu", bmpdata.sz);
 #       endif
 
         vdst.resize(bmpdata.sz + sizeof(ABitmapLite::BMPHEADER));

@@ -46,7 +46,6 @@ int main(int argc, char **argv)
 #   elif ((__ANDROID_VER__ <= 7) && (__ANDROID_VER__ >= 5))
     android::sp<android::ProcessState> proc(android::ProcessState::self());
     android::ProcessState::self()->startThreadPool();
-#   else
 #   endif
 
     /*
