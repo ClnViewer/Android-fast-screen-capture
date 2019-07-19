@@ -182,14 +182,16 @@ public:
 
     /// < 4.0
     int32_t update ();
-    /// 4.0 - 6.0 work *
+    /// 4.0 - 8.0 work *
     int32_t update (const sp<IBinder>&, Rect, bool);
-    /// 
+    /// 5.0 - 8.0
     int32_t update (const sp<IBinder>&, Rect, uint32_t, uint32_t, bool);
+    /// 6.0 - 7.0 (android-6.0.1_r81 / android-7.1.2_r36)
+    int32_t update (const sp<IBinder>&, Rect, uint32_t, uint32_t, uint32_t, uint32_t, bool);
+    int32_t update (const sp<IBinder>&, Rect, uint32_t, uint32_t, uint32_t, uint32_t, bool, uint32_t);
+    /// 8.0
     int32_t update (const sp<IBinder>&, Rect, uint32_t, uint32_t, int32_t, int32_t, bool);
-    /// 6.0 - 8.1.0 work *
     int32_t update (const sp<IBinder>&, Rect, uint32_t, uint32_t, int32_t, int32_t, bool, uint32_t);
-    /// 6.0
     static int32_t capture(const sp<IBinder>&, const sp<IGraphicBufferProducer>&, Rect, uint32_t, uint32_t, int32_t, int32_t, bool);
     /// 9.0
     static int32_t capture(const sp<IBinder>&, Rect, uint32_t, uint32_t, int32_t, int32_t, bool, uint32_t, sp<GraphicBuffer>*);
@@ -225,33 +227,22 @@ public:
     int32_t     getDataSpace();
 };
 
-int32_t ScreenshotClient::update() { LOG("ScreenshotClient::update(%d)\n", __LINE__); return 1; }
-int32_t ScreenshotClient::update(const sp<IBinder>& display,
-            Rect sourceCrop, bool useIdentityTransform) { LOG("ScreenshotClient::update(%d)\n", __LINE__); return 1; }
-int32_t ScreenshotClient::update(const sp<IBinder>& display,
-            Rect sourceCrop, uint32_t reqWidth, uint32_t reqHeight,
-            bool useIdentityTransform) { LOG("ScreenshotClient::update(%d)\n", __LINE__); return 1; }
-int32_t ScreenshotClient::update(const sp<IBinder>& display,
-            Rect sourceCrop, uint32_t reqWidth, uint32_t reqHeight,
-            int32_t minLayerZ, int32_t maxLayerZ,
-            bool useIdentityTransform) { LOG("ScreenshotClient::update(%d)\n", __LINE__); return 1; }
-int32_t ScreenshotClient::update(const sp<IBinder>& display,
-            Rect sourceCrop, uint32_t reqWidth, uint32_t reqHeight,
-            int32_t minLayerZ, int32_t maxLayerZ,
-            bool useIdentityTransform, uint32_t rotation) { LOG("ScreenshotClient::update(%d)\n", __LINE__); return 1; }
-int32_t ScreenshotClient::capture(const sp<IBinder>& display,
-            Rect sourceCrop, uint32_t reqWidth, uint32_t reqHeight,
-            int32_t minLayerZ, int32_t maxLayerZ,
-            bool useIdentityTransform, uint32_t rotation,
-            sp<GraphicBuffer>* gb) { LOG("ScreenshotClient::capture(%d)\n", __LINE__); return 1; }
-int32_t ScreenshotClient::capture(const sp<IBinder>& display, const sp<IGraphicBufferProducer>& igbp,
-            Rect sourceCrop, uint32_t reqWidth, uint32_t reqHeight,
-            int32_t minLayerZ, int32_t maxLayerZ,
-            bool useIdentityTransform) { LOG("ScreenshotClient::capture(%d)\n", __LINE__); return 1; }
-int32_t ScreenshotClient::capture(const sp<IBinder>& display, Rect r,
-            uint32_t w, uint32_t h, int32_t x, int32_t y,
-            bool b0, uint32_t u0, bool b1,
-            sp<GraphicBuffer> *buf, bool & b2) { LOG("ScreenshotClient::capture(%d)\n", __LINE__); return 1; }
+    /// < 4.0
+int32_t ScreenshotClient::update () { LOG("ScreenshotClient::update(%d)\n", __LINE__); return 1; }
+    /// 4.0 - 8.0 work *
+int32_t ScreenshotClient::update (const sp<IBinder>& d, Rect r, bool b) { LOG("ScreenshotClient::update(%d)\n", __LINE__); return 1; }
+    /// 5.0 - 8.0
+int32_t ScreenshotClient::update (const sp<IBinder>& d, Rect r, uint32_t w, uint32_t h, bool b) { LOG("ScreenshotClient::update(%d)\n", __LINE__); return 1; }
+    /// 6.0 - 7.0 (android-6.0.1_r81 / android-7.1.2_r36)
+int32_t ScreenshotClient::update (const sp<IBinder>& d, Rect r, uint32_t w, uint32_t h, uint32_t x, uint32_t y, bool b) { LOG("ScreenshotClient::update(%d)\n", __LINE__); return 1; }
+int32_t ScreenshotClient::update (const sp<IBinder>& d, Rect r, uint32_t w, uint32_t h, uint32_t x, uint32_t y, bool b, uint32_t o) { LOG("ScreenshotClient::update(%d)\n", __LINE__); return 1; }
+    /// 8.0
+int32_t ScreenshotClient::update (const sp<IBinder>& d, Rect r, uint32_t w, uint32_t h, int32_t x, int32_t y, bool b) { LOG("ScreenshotClient::update(%d)\n", __LINE__); return 1; }
+int32_t ScreenshotClient::update (const sp<IBinder>& d, Rect r, uint32_t w, uint32_t h, int32_t x, int32_t y, bool b, uint32_t o) { LOG("ScreenshotClient::update(%d)\n", __LINE__); return 1; }
+int32_t ScreenshotClient::capture(const sp<IBinder>& d, const sp<IGraphicBufferProducer>& p, Rect r, uint32_t w, uint32_t h, int32_t x, int32_t y, bool b) { LOG("ScreenshotClient::capture(%d)\n", __LINE__); return 1; }
+    /// 9.0
+int32_t ScreenshotClient::capture(const sp<IBinder>& d, Rect r, uint32_t w, uint32_t h, int32_t x, int32_t y, bool b, uint32_t o, sp<GraphicBuffer> *p) { LOG("ScreenshotClient::capture(%d)\n", __LINE__); return 1; }
+int32_t ScreenshotClient::capture(const sp<IBinder>& d, Rect r, uint32_t w, uint32_t h, int32_t x, int32_t y, bool b, uint32_t o, bool bb, sp<GraphicBuffer> *p, bool& bbb) { LOG("ScreenshotClient::capture(%d)\n", __LINE__); return 1; }
 
 ScreenshotClient::ScreenshotClient() {
     LOG("ScreenshotClient::ScreenshotClient()\n");

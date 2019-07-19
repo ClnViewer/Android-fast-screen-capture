@@ -17,15 +17,16 @@ class AScreenConf
         bool IsCapPack;
         bool IsSDL2Compatible;
         bool IsHelp;
+        bool IsInfo;
         uint32_t Ratio;
         uint32_t Rotate;
         uint32_t FastPack;
         std::string FileName;
 
         AScreenConf(int32_t argc, char **argv);
-        ~AScreenConf();
 
         void printHelp();
+        void printInfo();
 
 };
 

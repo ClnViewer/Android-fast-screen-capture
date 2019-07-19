@@ -83,9 +83,6 @@ void ABitmapLite::SetData(
         bmpdata.h = _h;
         bmpdata.s = _s;
         bmpdata.f = _f;
-#       if (__ANDROID_VER__ >= 9)
-        _sz = (_s * _h * android::bytesPerPixel(_f));
-#       endif
         bmpdata.sz = _sz;
 
         if (TestData(false))

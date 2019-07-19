@@ -12,6 +12,7 @@
 #define __CONF_CAPSTDOUT  "",   "--stdout"
 #define __CONF_CAPSDL     "",   "--sdl"
 #define __CONF_CAPHELP    "-h", "--help"
+#define __CONF_CAPINFO    "-i", "--info"
 
 #define __HELP_PRINT(A) fprintf(stdout, "\t\t%s\t%s\t%s\n", (A).key1, (A).key2, (A).desc)
 #define __HELP_SET_(A,B,C) .key1 = A, .key2 = B, .desc = C
@@ -52,6 +53,9 @@ static struct help_s helps[] =
     },
     {
         __HELP_SET(__CONF_CAPHELP, "\t: this help screen")
+    },
+    {
+        __HELP_SET(__CONF_CAPINFO, "\t: build information")
     }
 };
 
@@ -81,6 +85,14 @@ static uint32_t strToUint(std::string const opt)
     }
 }
 
+void AScreenConf::printInfo()
+{
+    fprintf(stdout, "ascreencap - v.%s, build: %s.%s.%s [Android v.%d, api %d]",
+            ACAP_FULLVERSION_STRING, ACAP_DATE, ACAP_MONTH, ACAP_YEAR,
+            __ANDROID_VER__, __ANDROID_API__
+            );
+}
+
 void AScreenConf::printHelp()
 {
     fprintf(stdout, "\n\tAndroid Screen Capture - v.%s, rev:%s, build: %s.%s.%s\n",
@@ -106,7 +118,8 @@ void AScreenConf::printHelp()
 AScreenConf::AScreenConf(int32_t argc, char **argv)
     : _err(0),
       IsCapStream(false), IsCapFile(false), IsCapStdOut(false),
-      IsCapRatio(false), IsCapRotate(false), IsCapPack(false), IsSDL2Compatible(false), IsHelp(false),
+      IsCapRatio(false), IsCapRotate(false), IsCapPack(false),
+      IsSDL2Compatible(false), IsHelp(false), IsInfo(false),
       Ratio(0U), Rotate(0U), FastPack(0U)
 {
     argh::parser lcmd({
@@ -116,7 +129,9 @@ AScreenConf::AScreenConf(int32_t argc, char **argv)
             __CONF_CAPRATIO,
             __CONF_CAPROTATE,
             __CONF_CAPSTDOUT,
-            __CONF_CAPSDL
+            __CONF_CAPSDL,
+            __CONF_CAPHELP,
+            __CONF_CAPINFO
             });
 
     lcmd.parse(argc, argv);
@@ -128,12 +143,16 @@ AScreenConf::AScreenConf(int32_t argc, char **argv)
 
     IsSDL2Compatible = (lcmd[{ __CONF_CAPSDL }]);
     IsHelp      = (lcmd[{ __CONF_CAPHELP }]);
+    IsInfo      = (lcmd[{ __CONF_CAPINFO }]);
     IsCapStdOut = (lcmd[{ __CONF_CAPSTDOUT }]);
     IsCapStream = (lcmd[{ __CONF_CAPSTREAM }]);
     IsCapFile   = !(!(lcmd({ __CONF_CAPFILE })   >> FileName));
     IsCapRatio  = !(!(lcmd({ __CONF_CAPRATIO })  >> sratio));
     IsCapRotate = !(!(lcmd({ __CONF_CAPROTATE }) >> srotate));
     IsCapPack   = !(!(lcmd({ __CONF_CAPPACK })   >> spack));
+
+    if ((IsHelp) || (IsInfo))
+        return;
 
     if (!IsCapStdOut)
     {
@@ -215,10 +234,6 @@ AScreenConf::AScreenConf(int32_t argc, char **argv)
     );
 #   endif
 
-}
-
-AScreenConf::~AScreenConf()
-{
 }
 
 }

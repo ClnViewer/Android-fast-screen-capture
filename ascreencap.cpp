@@ -57,14 +57,19 @@ int main(int argc, char **argv)
     */
 
     ACapture::AScreenConf cnf(argc, argv);
-    ACapture::AScreenCap sc;
 
-    if (cnf.IsHelp)
+    if (cnf.IsInfo)
+    {
+        cnf.printInfo();
+        return 0;
+    }
+    else if (cnf.IsHelp)
     {
         cnf.printHelp();
         return 0;
     }
 
+    ACapture::AScreenCap sc;
     sc.setRatio(cnf.Ratio);
     sc.setRotate(cnf.Rotate);
     sc.setNohead(cnf.IsSDL2Compatible);

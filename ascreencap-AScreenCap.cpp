@@ -94,7 +94,7 @@ bool AScreenCap::printStdout(bool ispack, int32_t fast)
     if ((!_psz) || (!_dst))
         __ERROR_BOOL_SET;
 
-    __LOG_PRINT("-> printStdout: [%d/%d] %zu", ispack, fast, _psz);
+    __LOG_PRINT("-> print stdout: [%d/%d] %zu", ispack, fast, _psz);
     write(dup(STDOUT_FILENO), _dst, _psz);
     return true;
 }
@@ -124,13 +124,17 @@ bool AScreenCap::getScreen()
         if (vbdata == nullptr)
             __ERROR_BREAK_SET;
 
+        size_t vbsz = (
+                _sc->getStride() * _sc->getHeight() * android::bytesPerPixel(_sc->getPixelFormat())
+            );
+
         _adata.SetData(
             _sc->getWidth(),
             _sc->getHeight(),
             _sc->getStride(),
             _sc->getPixelFormat(),
             vbdata,
-            0U
+            vbsz
             );
 #       else
         _adata.SetData(
@@ -148,35 +152,25 @@ bool AScreenCap::getScreen()
 
 #       if defined(_DEBUG)
 #         if (__ANDROID_VER__ >= 9)
-          ///
-        {
-            size_t vbsz = (_sc->getStride() * _sc->getHeight() * android::bytesPerPixel(_sc->getPixelFormat()));
             __LOG_PRINT("-> getScreen -> point:  %ux%u", _sc->getWidth(), _sc->getHeight());
             __LOG_PRINT("-> getScreen -> stride: %u", _sc->getStride());
             __LOG_PRINT("-> getScreen -> format: %d/%u/%u", _sc->getPixelFormat(), android::bytesPerPixel(_sc->getPixelFormat()), _adata.getBpp());
             __LOG_PRINT("-> getScreen -> size:   %zu", vbsz);
-        }
-          ///
 #         else
-          ///
-        {
             __LOG_PRINT("-> getScreen -> point:  %ux%u", _sc.getWidth(), _sc.getHeight());
             __LOG_PRINT("-> getScreen -> stride: %u", _sc.getStride());
             __LOG_PRINT("-> getScreen -> format: %u/%u", _sc.getFormat(), _adata.getBpp());
             __LOG_PRINT("-> getScreen -> size:   %u", _sc.getSize());
-        }
-          ///
 #         endif
 #       endif
 
 #       if defined(_DEBUG_RAW_FILE)
         FILE *fp;
-        static const char *fnameraw = "/data/local/tmp/OutBitmap.raw";
+        static const char *fnameraw = "/data/local/tmp/OutBitmap-getScreen.raw";
         __LOG_PRINT("-> getScreen -> write debug RAW file: %s", fnameraw);
         if ((fp = fopen(fnameraw, "w")))
         {
 #           if (__ANDROID_VER__ >= 9)
-            size_t vbsz = (_sc->getStride() * _sc->getHeight() * android::bytesPerPixel(_sc->getPixelFormat()));
             int sraw = fwrite(vbdata, 1, vbsz, fp);
 #           else
             int sraw = fwrite(_sc.getPixels(), 1, _sc.getSize(), fp);
@@ -188,8 +182,6 @@ bool AScreenCap::getScreen()
 
     }
     while (0);
-
-__LOG_PRINT("getScreen (%d)", __LINE__);
 
     if (_err)
         _adata.Reset();
@@ -257,7 +249,9 @@ bool AScreenCap::sysCap()
         ) != android::NO_ERROR)
 #   elif (__ANDROID_VER__ == 8)
     if (_sc.update(_dsp, android::Rect(0, 0), 0, 0, INT32_MIN, INT32_MAX, false, 0) != android::NO_ERROR)
-#   elif ((__ANDROID_VER__ <= 7) && (__ANDROID_VER__ >= 5))
+#   elif (__ANDROID_VER__ == 7)
+    if (_sc.update(_dsp, android::Rect(0, 0), 0U, 0U, 0U, -1U, false, 0) != android::NO_ERROR)
+#   elif ((__ANDROID_VER__ == 6) || (__ANDROID_VER__ == 5))
     if (_sc.update(_dsp, android::Rect(0, 0), false) != android::NO_ERROR)
 #   elif (__ANDROID_API__ >= 17)
     if (_sc.update(_dsp) != android::NO_ERROR)
@@ -294,13 +288,17 @@ bool AScreenCap::getLoop()
         if (vbdata == nullptr)
             __ERROR_BREAK_SET;
 
+        size_t vbsz = (
+                _sc->getStride() * _sc->getHeight() * android::bytesPerPixel(_sc->getPixelFormat())
+            );
+
         _adata.SetData(
             _sc->getWidth(),
             _sc->getHeight(),
             _sc->getStride(),
             _sc->getPixelFormat(),
             vbdata,
-            0U
+            vbsz
             );
 #       else
         _adata.SetData(

@@ -3,7 +3,7 @@ include $(CLEAR_VARS)
 LOCAL_MODULE    := ascreencap
 LOCAL_CPP_EXTENSION := .cpp
 LOCAL_SRC_FILES := ascreencap-ABitmapLite.cpp ascreencap-AScreenCap.cpp ascreencap-AScreenConf.cpp ascreencap.cpp extern/lz4/lz4.c
-LOCAL_CFLAGS := -Wall -Wno-unknown-pragmas -fopenmp -fexceptions -D__ANDROID_VER__=$(APP_BUILD_VERSION) -D__ANDROID_API_PLATFORM__="$(TARGET_PLATFORM)"
+LOCAL_CFLAGS := -Wall -Wno-unknown-pragmas -fopenmp -fexceptions -D_DEBUG_X=1 -D_DEBUG_RAW_FILE_X -D__ANDROID_VER__=$(APP_BUILD_VERSION) -D__ANDROID_API_PLATFORM__="$(TARGET_PLATFORM)"
 LOCAL_CPPFLAGS := -std=c++17
 LOCAL_LDFLAGS := -L./fakelib/libs/$(APP_BUILD_VERSION)/$(TARGET_ARCH_ABI) -Wl,--gc-sections
 LOCAL_LDLIBS := -lutils -lgui -lui -lbinder -lomp -llog

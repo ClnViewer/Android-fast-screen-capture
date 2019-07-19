@@ -38,7 +38,8 @@
 			<Add option="-Wno-unknown-pragmas" />
 			<Add option="-fopenmp" />
 			<Add option="-fexceptions" />
-			<Add option="-D_DEBUG=1" />
+			<Add option="-D_DEBUG_X=1" />
+			<Add option="-D_DEBUG_RAW_FILE_X" />
 			<Add option="-Ifakelib/include" />
 			<Add option="-IC:/__BuildSource/__LIB__/android-aosp-header/android-6.0.0_r1/system/core/include" />
 			<Add option="-IC:/__BuildSource/__LIB__/android-aosp-header/android-6.0.0_r1/frameworks/base/include" />
