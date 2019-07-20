@@ -3,6 +3,57 @@
 #include "ascreencap-ABitmapLite.h"
 #include "ascreencap-AScreenCap.h"
 
+/// android::GraphicBuffer method
+#if (__ANDROID_VER__ >= 9)
+#  define acap_release()  \
+    if (_sc != nullptr) _sc->unlock()
+
+#  define acap_size()  \
+    static_cast<size_t>(_sc->getStride() * _sc->getHeight() * android::bytesPerPixel(_sc->getPixelFormat()))
+
+#  define acap_getFormat()  \
+    _sc->getPixelFormat()
+
+#  define acap_getPixels()  \
+    vbdata
+
+#  define acap_getWidth()  \
+    _sc->getWidth()
+
+#  define acap_getHeight()  \
+    _sc->getHeight()
+
+#  define acap_getStride()  \
+    _sc->getHeight()
+
+
+/// android::ScreenshotClient method
+#else
+
+# define acap_release()  \
+    _sc.release()
+
+# define acap_size()  \
+    static_cast<size_t>(_sc.getSize())
+
+#  define acap_getFormat()  \
+    _sc.getFormat()
+
+#  define acap_getPixels()  \
+    _sc.getPixels()
+
+#  define acap_getWidth()  \
+    _sc.getWidth()
+
+#  define acap_getHeight()  \
+    _sc.getHeight()
+
+#  define acap_getStride()  \
+    _sc.getHeight()
+
+#endif
+
+
 namespace ACapture
 {
 
@@ -21,12 +72,7 @@ AScreenCap::AScreenCap()
 
 AScreenCap::~AScreenCap()
 {
-#   if (__ANDROID_VER__ >= 9)
-    if (_sc != nullptr)
-        _sc->unlock();
-#   else
-    _sc.release();
-#   endif
+    acap_release();
 }
 
 int32_t AScreenCap::getError() const
@@ -124,44 +170,25 @@ bool AScreenCap::getScreen()
         if (vbdata == nullptr)
             __ERROR_BREAK_SET;
 
-        size_t vbsz = (
-                _sc->getStride() * _sc->getHeight() * android::bytesPerPixel(_sc->getPixelFormat())
-            );
+#       endif
 
         _adata.SetData(
-            _sc->getWidth(),
-            _sc->getHeight(),
-            _sc->getStride(),
-            _sc->getPixelFormat(),
-            vbdata,
-            vbsz
+            acap_getWidth(),
+            acap_getHeight(),
+            acap_getStride(),
+            acap_getFormat(),
+            acap_getPixels(),
+            acap_size()
             );
-#       else
-        _adata.SetData(
-            _sc.getWidth(),
-            _sc.getHeight(),
-            _sc.getStride(),
-            _sc.getFormat(),
-            _sc.getPixels(),
-            _sc.getSize()
-            );
-#       endif
 
         if (!_adata.TestData(true))
             __ERROR_BREAK_SET;
 
 #       if defined(_DEBUG)
-#         if (__ANDROID_VER__ >= 9)
-            __LOG_PRINT("-> getScreen -> point:  %ux%u", _sc->getWidth(), _sc->getHeight());
-            __LOG_PRINT("-> getScreen -> stride: %u", _sc->getStride());
-            __LOG_PRINT("-> getScreen -> format: %d/%u/%u", _sc->getPixelFormat(), android::bytesPerPixel(_sc->getPixelFormat()), _adata.getBpp());
-            __LOG_PRINT("-> getScreen -> size:   %zu", vbsz);
-#         else
-            __LOG_PRINT("-> getScreen -> point:  %ux%u", _sc.getWidth(), _sc.getHeight());
-            __LOG_PRINT("-> getScreen -> stride: %u", _sc.getStride());
-            __LOG_PRINT("-> getScreen -> format: %u/%u", _sc.getFormat(), _adata.getBpp());
-            __LOG_PRINT("-> getScreen -> size:   %u", _sc.getSize());
-#         endif
+            __LOG_PRINT("-> getScreen -> point:  %ux%u", acap_getWidth(), acap_getHeight());
+            __LOG_PRINT("-> getScreen -> stride: %u", acap_getStride());
+            __LOG_PRINT("-> getScreen -> format: %d/%u/%u", acap_getFormat(), android::bytesPerPixel(acap_getFormat()), _adata.getBpp());
+            __LOG_PRINT("-> getScreen -> size:   %zu", acap_size());
 #       endif
 
 #       if defined(_DEBUG_RAW_FILE)
@@ -171,7 +198,7 @@ bool AScreenCap::getScreen()
         if ((fp = fopen(fnameraw, "w")))
         {
 #           if (__ANDROID_VER__ >= 9)
-            int sraw = fwrite(vbdata, 1, vbsz, fp);
+            int sraw = fwrite(vbdata, 1, acap_size(), fp);
 #           else
             int sraw = fwrite(_sc.getPixels(), 1, _sc.getSize(), fp);
 #           endif
@@ -186,12 +213,8 @@ bool AScreenCap::getScreen()
     if (_err)
         _adata.Reset();
 
-#   if (__ANDROID_VER__ >= 9)
-    if (_sc != nullptr)
-        _sc->unlock();
-#   else
-    _sc.release();
-#   endif
+    acap_release();
+
     return (!_err);
 }
 
@@ -236,12 +259,7 @@ void AScreenCap::getStream(int32_t fast)
 
 bool AScreenCap::sysCap()
 {
-#   if (__ANDROID_VER__ >= 9)
-    if (_sc != nullptr)
-        _sc->unlock();
-#   else
-    _sc.release();
-#   endif
+    acap_release();
 
 #   if (__ANDROID_VER__ >= 9)
     if (android::ScreenshotClient::capture(
@@ -288,28 +306,16 @@ bool AScreenCap::getLoop()
         if (vbdata == nullptr)
             __ERROR_BREAK_SET;
 
-        size_t vbsz = (
-                _sc->getStride() * _sc->getHeight() * android::bytesPerPixel(_sc->getPixelFormat())
-            );
+#       endif
 
         _adata.SetData(
-            _sc->getWidth(),
-            _sc->getHeight(),
-            _sc->getStride(),
-            _sc->getPixelFormat(),
-            vbdata,
-            vbsz
+            acap_getWidth(),
+            acap_getHeight(),
+            acap_getStride(),
+            acap_getFormat(),
+            acap_getPixels(),
+            acap_size()
             );
-#       else
-        _adata.SetData(
-            _sc.getWidth(),
-            _sc.getHeight(),
-            _sc.getStride(),
-            _sc.getFormat(),
-            _sc.getPixels(),
-            _sc.getSize()
-            );
-#       endif
 
         _ready = false;
 
