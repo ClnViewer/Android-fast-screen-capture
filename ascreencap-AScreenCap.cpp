@@ -24,7 +24,7 @@
     _sc->getHeight()
 
 #  define acap_getStride()  \
-    _sc->getHeight()
+    _sc->getStride()
 
 
 /// android::ScreenshotClient method
@@ -49,7 +49,7 @@
     _sc.getHeight()
 
 #  define acap_getStride()  \
-    _sc.getHeight()
+    _sc.getStride()
 
 #endif
 
